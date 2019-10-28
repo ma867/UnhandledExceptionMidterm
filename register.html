@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+	<title>register</title>
+	<meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Questrial" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"></script>
+
+	<link rel="canonical" href="https://getbootstrap.com/docs/4.3/examples/sign-in/"> 
+    <link rel="stylesheet" href="css/main.css"> 
+	<link rel="stylesheet" href="bootstrap/css/bootstrap.css"> 
+
+  
+   
+    <style>
+      .bd-placeholder-img {
+        font-size: 1.125rem;
+        text-anchor: middle;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+      }
+
+      @media (min-width: 768px) {
+        .bd-placeholder-img-lg {
+          font-size: 3.5rem;
+        }
+      }
+    </style>
+    <!-- Custom styles for this template -->
+    <link href="signin.css" rel="stylesheet">
+  </head>
+  <body class="text-center">
+
+  <form class="form-signin" action="register.php" method="post">
+  <!--<img class="avatar" src="../images/loginICON.jpg" alt="avatar" width="72" height="72" id="nutrition"> Create ICON -->
+  <h1 class="h3 mb-3 font-weight-normal">Please Register</h1>
+  <label for="username" class="sr-only">username</label>
+  <input type="text" name="username" id="inputUsername" class="form-control" placeholder="username" required autofocus size="35"><br>
+  <label for="password" class="sr-only">password</label>
+  <input type="password" name="password" id="inputPassword" class="form-control" placeholder="password" required size="35"><br>
+  <label for="email" class="sr-only">email</label>
+  <input type="email" name="email" id="inputEmail" class="form-control" placeholder="email"  required size="35"><br>
+  <label for="firstname" class="sr-only">firstname</label>
+  <input type="text" name="firstname" id="inputFirstname" class="form-control" placeholder="firstname" required autofocus size="35"><br>
+  <label for="lastname" class="sr-only">lastname</label>
+  <input type="text" name="lastname" id="inputEmail" class="form-control" placeholder="lastname" required autofocus size="35"><br>
+  <div class="checkbox mb-3">
+    <label>
+      <input type="checkbox" value="remember-me"> Remember me
+    </label>
+  </div>
+  <button class="btn btn-lg btn-primary btn-block" type="submit" id="button">Register</button>
+
+  <div class="d-flex justify-content-center links">
+    already have an account? <a href="index.html" class="ml-2">Login</a>
+  </div>
+
+
+
+  <p class="mt-5 mb-3 text-muted">&copy; 2017-2019</p>
+</form>
+  <!-- Bootstrap core JavaScript -->
+  <script src="jquery/jquery.min.js"></script>
+  <script src="js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

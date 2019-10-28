@@ -1,0 +1,244 @@
+﻿<?php
+session_start();
+?>
+<html lang="en">
+
+<head>
+    <title>BMI</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.css">
+
+
+    <style>
+
+
+
+        .bd-placeholder-img {
+            font-size: 1.125rem;
+            text-anchor: middle;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+
+        @media (min-width: 768px) {
+            .bd-placeholder-img-lg {
+                font-size: 3.5rem;
+            }
+        }
+
+
+        form {
+            padding: 20px;
+            border-radius: 6px;
+            background: #fff;
+            box-shadow: 0 0 30px 0 #095484;
+        }
+
+        .testbox {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: inherit;
+            padding: 50px;
+        }
+
+
+
+        #button{
+            background-color: #f44336;
+            border-color:#f44336;
+            color: #ffffff;
+
+
+        }
+
+
+
+
+        .form-group {
+
+            padding: 0 !important;
+        }
+
+        .container {
+            justify-content: center;
+            display: inline-block;
+            width: 90%;
+            margin-left: 5% !important;
+            margin-right: 5% !important;
+        }
+
+
+        .form-control {
+            margin: 0 !important;
+        }
+
+
+
+    </style>
+
+</head>
+<body style="background-image: url('images/background.jpg');">
+<nav class="navbar navbar-expand-sm navbar-dark bg-dark">
+    <a class="navbar-brand"  href="#">Our project</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar7">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="navbar-collapse collapse justify-content-stretch" id="navbar7">
+        <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+                <a class="nav-link" href="logout.php" >Log Out</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+
+
+
+<div class="testbox">
+
+    <div class="container">
+        <form action="BMIBackend.php" method="post">
+            <div>
+                <h1> Tell us about yourself</h1>
+                <p> We want to know you better, here are some questions we would like for you to answer to assure you get the best experience. </p>
+            </div>
+
+            <div class="form-group row">
+                <label for="age" class="col-sm-2 col-form-label">Age*</label>
+                <div class="col-sm-10">
+                    <input type="number" name="age" class="form-control" id="age" placeholder="age" required >
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="weight" class="col-sm-2 col-form-label">Weight(lbs)*</label>
+                <div class="col-sm-10">
+                    <input type="number" name="weight" class="form-control" id="weight" placeholder="weight" required >
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label for="feet" class="col-sm-2 col-form-label">Feet*</label>
+                <div class="col-sm-10">
+                    <input type="number" name="feet" class="form-control" id="feet" placeholder="feet" required >
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label for="inches" class="col-sm-2 col-form-label">Inches*</label>
+                <div class="col-sm-10">
+                    <input type="number" name="inches" class="form-control" id="inches" placeholder="inches" required >
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label for="gender" class="col-sm-2 col-form-label">Gender*</label>
+                <div class="col-sm-10">
+                    <select name="gender" class = "form-control" required>
+                        <option value="" selected disabled hidden>default</option>
+                        <option value="female">female</option>
+                        <option value="male">male</option>
+                        <option value="other">other</option>
+                    </select>
+                </div>
+            </div>
+
+
+            <div class="form-group row">
+                <label for="lifestyle" class="col-sm-2 col-form-label">Lifestyle*</label>
+                <div class="col-sm-10">
+                    <select name="lifestyle" class = "form-control" required>
+                        <option value="" selected disabled hidden>default</option>
+                        <option value="sendentary">sedentary</option>
+                        <option value="lightlyactive">lightly active</option>
+                        <option value="moderatelyactive">moderately active</option>
+                        <option value="veryactive">very active</option>
+                        <option value="extraactive">extra active</option>
+                    </select>
+                </div>
+            </div>
+
+       		  <p>Please let us know your food preferences, check any that apply:</p>
+		  <div class="form-check">
+			 <input class="form-check-input" type="checkbox" name="vegetarian" id="vegetarian">
+			 <label class="form-check-label" for="vegetarian">
+			 Vegetarian
+			 </label>
+		  </div>
+          <div class="form-check">
+			 <input class="form-check-input" type="checkbox" name= "nonvegetarian"  id="nonvegetarian">
+			 <label class="form-check-label" for="nonvegetarian">
+			 Non-Vegetarian
+			</label>
+		 </div>
+		 <div class="form-check">
+			 <input class="form-check-input" type="checkbox" name="vegan"  id="vegan">
+			 <label class="form-check-label" for="vegan">
+			 Vegan
+			</label>
+		 </div>
+		 <div class="form-check">
+			 <input class="form-check-input" type="checkbox" name="pescatarian"  id="pescatarian">
+			 <label class="form-check-label" for="pescatarian">
+			 Pescatarian
+			</label>
+		</div>
+
+           <!--Intolerance Form-->
+
+            <br><p>Please let us know your food intolerances, check all that apply:</p>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" name="gluten" id="gluten">
+                <label class="form-check-label" for="gluten">
+                    Gluten
+                </label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" name= "dairy"  id="dairy">
+                <label class="form-check-label" for="dairy">
+                    Dairy
+                </label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" name="peanut"  id="peanut">
+                <label class="form-check-label" for="peanut">
+                    Peanut
+                </label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" name="seafood"  id="seadfood">
+                <label class="form-check-label" for="seafood">
+                    Seafood
+                </label>
+            </div><br>
+
+
+
+
+            <!--------end here-->
+
+
+
+            <div class="btn-block">
+                <button class="btn btn-lg btn-block" type="submit" id="button">Apply</button>
+            </div>
+    </div>
+
+    </form>
+</div>
+
+
+
+<!-- Bootstrap core JavaScript -->
+<script src="jquery/jquery.min.js"></script>
+<script src="js/bootstrap.bundle.min.js"></script>
+
+
+
+</body>
+</html>
