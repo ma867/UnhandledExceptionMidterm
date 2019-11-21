@@ -58,9 +58,9 @@ session_start();
     </div>
 </nav><br>
 <?php
-include('curlFunctions.php');
+include('ApplicationFunctions.php');
 $mealId = $_GET["mealId"];
-$recipe = curlFunctions::returnRecipe($mealId);
+$recipe = ApplicationFunctions::returnRecipe($mealId);
 echo $recipe;
 
 echo $response;

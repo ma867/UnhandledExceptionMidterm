@@ -76,9 +76,9 @@ session_start();
 
 <!--Cards-->
 <?php
-include('curlFunctions.php');
+include('ApplicationFunctions.php');
     $username= $_SESSION["username"];
-    $meals = curlFunctions::getIndividualMealInformationAndDisplay($username);
+    $meals = ApplicationFunctions::getIndividualMealInformationAndDisplay($username);
     echo $meals;
 ?>
 

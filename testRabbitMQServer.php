@@ -4,7 +4,7 @@ require_once('path.inc');
 require_once('get_host_info.inc');
 require_once('rabbitMQLib.inc');
 require_once ('BMRFormulas.php');
-require_once ('curlFunctions.php');
+require_once('ApplicationFunctions.php');
 
 
 function doLogin($username,$password)
@@ -18,6 +18,7 @@ function doLogin($username,$password)
 	print "connected";
 
 	mysqli_select_db($logindb, "testdb");
+	$password = sha1($password);
 	$query = "select * from users where username = '$username' and password = '$password'";
 	$runQuery = mysqli_query($logindb, $query) or die(mysqli_error($logindb));
 	$row = mysqli_num_rows($runQuery);
@@ -53,6 +54,7 @@ function doRegister($username, $password, $email, $firstname, $lastname){
 		}
 		else
 		{
+		    $password = sha1($password);
 			$query = "insert into users (username, password, email, firstname, lastname) values ('$username', '$password', '$email', '$firstname', '$lastname')";
 			$runQuery = mysqli_query($logindb, $query) or die(mysqli_error($logindb));
 			echo "your account has been created!";
@@ -160,9 +162,9 @@ function requestProcessor($request)
         case "insertinfo":
             return registerUserInfo($request['username'],$request['age'],$request['weight'],$request['height'], $request['gender'], $request['lifestyle'], $request['vegetarian'], $request['nonvegetarian'], $request['vegan'], $request['pescetarian'],$request['gluten'],$request['dairy'], $request['peanut'], $request['seafood']);
         case "insertmeal":
-            return curlFunctions::addInformationToMealsAndCaloriesTables($request['username'], $request['mealId']);
+            return ApplicationFunctions::addInformationToMealsAndCaloriesTables($request['username'], $request['mealId']);
         case "insertlike":
-            return curlFunctions::addMealToLikesTable($request['username'], $request['mealId']);
+            return ApplicationFunctions::addMealToLikesTable($request['username'], $request['mealId']);
     }
     return array("returnCode" => '0', 'message'=>"Server received request and processed");
 }

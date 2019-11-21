@@ -67,4 +67,20 @@ class BootstrapTags
         return "\" class=\"btn btn-danger\">Like</a></div><br>" ;
     }
 
+    public static function createRecipePage($mealTitle, $mealReadyInMinutes, $ingredients, $recipeSteps, $calories, $fat, $saturatedFat, $carbohydrates, $sugar, $cholesterol, $sodium, $protein, $fiber){
+        $recipe = "<div class=\"container\"><h2>" . $mealTitle . "</h2><div class=\"w3-card-4\" style=\"width:70%\"><p>Cook time:" .  $mealReadyInMinutes . "</p></div><section><h4>Recipe</h4><h6><b>Ingredients</b></h6><p>" . $ingredients;
+        $recipe .= "<p></section><section><h6><b>Directions</b></h6><p>" . $recipeSteps . "</p></section><section>";
+        $recipe .= "<h4>Nutrition info</h4><table class=\"table table-borderless\"><tbody><tr><th scope=\"row\">Calories:</th><td>" . $calories;
+        $recipe .= "</td></tr><tr><th scope=\"row\">Fat:</th><td>" . $fat;
+        $recipe .= "</td></tr><tr><th scope=\"row\">Saturated Fat:</th><td>" . $saturatedFat;
+        $recipe .= "</td></tr><tr><th scope=\"row\">Carbohydrates:</th><td>" . $carbohydrates;
+        $recipe .= "</td></tr><tr><th scope=\"row\">Sugar:</th><td>" . $sugar;
+        $recipe .= "</td></tr><tr><th scope=\"row\">Cholesterol:</th><td>" . $cholesterol;
+        $recipe .= "</td></tr><tr><th scope=\"row\">Sodium:</th><td>" . $sodium;
+        $recipe .= "</td></tr><tr><th scope=\"row\">Protein:</th><td>" . $protein;
+        $recipe .= "</td></tr><tr><th scope=\"row\">Fiber:</th><td>" . $fiber;
+        $recipe .= "</td></tr></tbody></table></section></div>";
+        return $recipe;
+    }
+
 }

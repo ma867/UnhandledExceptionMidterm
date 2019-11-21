@@ -1,0 +1,369 @@
+
+
+<!doctype html>
+<html lang="en">
+
+<head>
+    <title>Search</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.css">
+    <link rel="stylesheet" href="jquery/jquery.min.js">
+
+
+    <style>
+        #button{
+            background-color: #f44336;
+            border-color:#f44336;
+            color: #ffffff;
+
+
+        }
+
+
+
+    </style>
+</head>
+<body style="background-image: url('images/plainbackground.jpg');">
+<nav class="navbar navbar-expand-sm navbar-dark bg-dark">
+    <a class="navbar-brand"  href="#">Our project</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar7">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="navbar-collapse collapse justify-content-stretch" id="navbar7">
+        <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+                <a class="nav-link" href="#">Home</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">Profile</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">Search</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="logout.php" >Log Out</a>
+            </li>
+
+        </ul>
+    </div>
+</nav><br>
+
+
+
+<div class="container">
+    <form action="searchBackEnd.php" method="post" >
+        <div class="col-sm-12" >
+                <div class="input-group" >
+                    <br><br><br><input id="bar" name="bar" type="text" value="" class="form-control"/>
+
+                    <input type="submit" value="submit" class="btn btn-danger btn-search" />
+                </div>
+        </div>
+    </form>
+</div>
+
+<div id="result">
+</div>
+
+
+<div class="container" >
+    <div class="row">
+        <div class="card-deck">
+            <div class="col-lg-4">
+
+                <div class="card">
+                    <img class="card-img-top" src="images/loginICON.jpg" alt="Card image cap">
+                    <div class="card-body">
+                        <h5 class="card-title">Card title</h5>
+                        <p class="card-text">Calories.</p>
+                        <p class="card-text">100% Veg</p>
+                        <p class="card-text"><a href="recipe.html">Click here for recipe</a></p>
+                    </div>
+
+                    <div class="btn-block" style="text-align: center;">
+                        <a href="#" class="btn btn-danger">add to calories</a>
+                    </div><br>
+
+
+
+
+
+                </div>
+            </div>
+
+            <div class="col-lg-4">
+                <div class="card">
+                    <img class="card-img-top" src="images/background.jpg" alt="Card image cap">
+                    <div class="card-body">
+                        <h5 class="card-title">Card title</h5>
+                        <p class="card-text">calories </p>
+                        <p class="card-text">100% Veg</p>
+                        <p class="card-text"><a href="recipe.html">Click here for recipe</a></p>
+
+                    </div>
+
+
+                    <div class="btn-block" style="text-align: center;">
+                        <a href="#" class="btn btn-danger">add to calories</a>
+                    </div><br>
+
+
+
+
+                </div>
+            </div>
+
+            <div class="col-lg-4">
+                <div class="card">
+                    <img class="card-img-top" src="images/salmon.jpg" alt="Card image cap">
+                    <div class="card-body">
+                        <h5 class="card-title">Salmon</h5>
+                        <p class="card-text">calories</p>
+                        <p class="card-text">100% Veg</p>
+                        <p class="card-text"><a href="recipe.html">Click here for recipe</a></p>
+                    </div>
+
+
+                    <div class="btn-block" style="text-align: center;">
+                        <a href="#" class="btn btn-danger">add to calories</a>
+                    </div><br>
+
+
+
+
+
+                </div>
+            </div>
+
+
+        </div>
+    </div><br>
+
+
+    <!--new row-->
+    <div class="row">
+        <div class="card-deck">
+            <div class="col-lg-4">
+
+                <div class="card">
+                    <img class="card-img-top" src="images/loginICON.jpg" alt="Card image cap">
+                    <div class="card-body">
+                        <h5 class="card-title">Card title</h5>
+                        <p class="card-text">Calories.</p>
+                        <p class="card-text">100% Veg</p>
+                        <p class="card-text"><a href="recipe.html">Click here for recipe</a></p>
+                    </div>
+
+                    <div class="btn-block" style="text-align: center;">
+                        <a href="#" class="btn btn-danger">add to calories</a>
+                    </div><br>
+
+
+
+
+                </div>
+            </div>
+
+            <div class="col-lg-4">
+                <div class="card">
+                    <img class="card-img-top" src="images/background.jpg" alt="Card image cap">
+                    <div class="card-body">
+                        <h5 class="card-title">Card title</h5>
+                        <p class="card-text">calories </p>
+                        <p class="card-text">100% Veg</p>
+                        <p class="card-text"><a href="recipe.html">Click here for recipe</a></p>
+
+                    </div>
+
+
+                    <div class="btn-block" style="text-align: center;">
+                        <a href="#" class="btn btn-danger">add to calories</a>
+                    </div><br>
+
+
+
+
+                </div>
+            </div>
+
+            <div class="col-lg-4">
+                <div class="card">
+                    <img class="card-img-top" src="images/salmon.jpg" alt="Card image cap">
+                    <div class="card-body">
+                        <h5 class="card-title">Salmon</h5>
+                        <p class="card-text">calories</p>
+                        <p class="card-text">100% Veg</p>
+                        <p class="card-text"><a href="recipe.html">Click here for recipe</a></p>
+
+                    </div>
+
+
+                    <div class="btn-block" style="text-align: center;">
+                        <a href="#" class="btn btn-danger">add to calories</a>
+                    </div><br>
+
+
+
+
+
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+
+
+
+
+
+
+</div><br> <!--closes row field-->
+
+
+<!--recommended Meals-->
+<section class="page-section bg-danger" id="about">
+    <div class="container">
+
+        <div class="row justify-content-center">
+            <div class="col-lg-6 text-center">
+                <h2 class="text-white mt-4">Recommended Meals</h2>
+                <hr class="divider light my-4">
+                <p class="text-white-50 mb-4">Below are some recommended meals for your target calories. </p>
+            </div>
+        </div>
+
+        <!--New Columns-->
+        <div class="row">
+            <div class="col-lg-4">
+                <div class="card">
+                    <img class="card-img-top" src="images/salmon.jpg" alt="Card image cap">
+                    <div class="card-body">
+                        <h5 class="card-title">Salmon</h5>
+                        <p class="card-text">calories</p>
+                        <p class="card-text">100% Veg</p>
+                    </div>
+
+
+                    <div class="btn-block" style="text-align: center;">
+                        <a href="#" class="btn btn-danger">details</a>
+                    </div><br>
+
+                </div>
+            </div>
+
+            <!--New Columns-->
+            <div class="col-lg-4">
+                <div class="card">
+                    <img class="card-img-top" src="images/salmon.jpg" alt="Card image cap">
+                    <div class="card-body">
+                        <h5 class="card-title">Salmon</h5>
+                        <p class="card-text">calories</p>
+                        <p class="card-text">100% Veg</p>
+                    </div>
+
+
+                    <div class="btn-block" style="text-align: center;">
+                        <a href="#" class="btn btn-danger">details</a>
+                    </div><br>
+
+                </div>
+            </div>
+
+            <!--New columns-->
+            <div class="col-lg-4">
+                <div class="card">
+                    <img class="card-img-top" src="images/salmon.jpg" alt="Card image cap">
+                    <div class="card-body">
+                        <h5 class="card-title">Salmon</h5>
+                        <p class="card-text">calories</p>
+                        <p class="card-text">100% Veg</p>
+                    </div>
+
+
+                    <div class="btn-block" style="text-align: center;">
+                        <a href="#" class="btn btn-danger">details</a>
+                    </div><br>
+
+                </div>
+            </div>
+
+
+        </div><!--close row-->
+
+
+    </div>
+</section>
+
+
+
+
+<!--Footer section-->
+<footer class="container-fluid py-5" style="background-color: white;">
+    <div class="row">
+        <div class="col-12 col-md">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="d-block mb-2"><circle cx="12" cy="12" r="10"></circle><line x1="14.31" y1="8" x2="20.05" y2="17.94"></line><line x1="9.69" y1="8" x2="21.17" y2="8"></line><line x1="7.38" y1="12" x2="13.12" y2="2.06"></line><line x1="9.69" y1="16" x2="3.95" y2="6.06"></line><line x1="14.31" y1="16" x2="2.83" y2="16"></line><line x1="16.62" y1="12" x2="10.88" y2="21.94"></line></svg>
+            <small class="d-block mb-3 text-muted">&copy; 2017-2018</small>
+        </div>
+        <div class="col-6 col-md">
+            <h5>Features</h5>
+            <ul class="list-unstyled text-small">
+                <li><a class="text-muted" href="#">Cool stuff</a></li>
+                <li><a class="text-muted" href="#">Random feature</a></li>
+                <li><a class="text-muted" href="#">Team feature</a></li>
+                <li><a class="text-muted" href="#">Stuff for developers</a></li>
+                <li><a class="text-muted" href="#">Another one</a></li>
+                <li><a class="text-muted" href="#">Last time</a></li>
+            </ul>
+        </div>
+        <div class="col-6 col-md">
+            <h5>Resources</h5>
+            <ul class="list-unstyled text-small">
+                <li><a class="text-muted" href="#">Resource</a></li>
+                <li><a class="text-muted" href="#">Resource name</a></li>
+                <li><a class="text-muted" href="#">Another resource</a></li>
+                <li><a class="text-muted" href="#">Final resource</a></li>
+            </ul>
+        </div>
+        <div class="col-6 col-md">
+            <h5>Resources</h5>
+            <ul class="list-unstyled text-small">
+                <li><a class="text-muted" href="#">Business</a></li>
+                <li><a class="text-muted" href="#">Education</a></li>
+                <li><a class="text-muted" href="#">Government</a></li>
+                <li><a class="text-muted" href="#">Gaming</a></li>
+            </ul>
+        </div>
+        <div class="col-6 col-md">
+            <h5>About</h5>
+            <ul class="list-unstyled text-small">
+                <li><a class="text-muted" href="#">Team</a></li>
+                <li><a class="text-muted" href="#">Locations</a></li>
+                <li><a class="text-muted" href="#">Privacy</a></li>
+                <li><a class="text-muted" href="#">Terms</a></li>
+            </ul>
+        </div>
+    </div>
+</footer>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- Bootstrap core JavaScript -->
+<script src="jquery/jquery.min.js"></script>
+<script src="js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>
