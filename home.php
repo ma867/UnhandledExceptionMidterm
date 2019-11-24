@@ -78,7 +78,10 @@ session_start();
 <?php
 include('ApplicationFunctions.php');
     $username= $_SESSION["username"];
-    $meals = ApplicationFunctions::getIndividualMealInformationAndDisplay($username);
+    $recommendedCalories = $_SESSION["recommendedcalories"];
+    $diet = $_SESSION["diet"];
+    $intolerance = $_SESSION["intolerance"];
+    $meals = ApplicationFunctions::getIndividualMealInformationAndDisplay($recommendedCalories, $diet, $intolerance);
     echo $meals;
 ?>
 

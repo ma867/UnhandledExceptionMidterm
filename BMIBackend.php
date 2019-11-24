@@ -3,6 +3,7 @@
 require_once('path.inc');
 require_once('get_host_info.inc');
 require_once('rabbitMQLib.inc');
+require_once ('ApplicationFunctions.php');
 
 session_start();
 $client = new rabbitMQClient("testRabbitMQ.ini","testServer");
@@ -89,7 +90,32 @@ header("Location: bmiunsuccessful.php");
 exit;
 }
 else{
-header("Location: home.php");
-exit;
+    $username= $_SESSION["username"];
+    $logindb = new mysqli("192.168.2.4","testUser","12345","testdb");
+    if(mysqli_connect_errno())
+    {
+        echo "failed to connect to MYSQL:" . mysqli_connect_error();
+        exit();
+    }
+    else {
+        mysqli_select_db($logindb, "testdb");
+        //get userid from users table using username
+        $query = "select * from users where username = '$username'";
+        $runQuery = mysqli_query($logindb, $query) or die(mysqli_error($logindb));
+        while ($result = mysqli_fetch_array($runQuery, MYSQLI_ASSOC)) {
+            $userid = $result["userid"];
+
+        }
+        $recommendedCalories = ApplicationFunctions::getRecommendedCalories($userid, $logindb);
+        $diet = ApplicationFunctions::getDietaryPreferences($userid, $logindb);
+        $intolerance = ApplicationFunctions::getIntolerances($userid, $logindb);
+
+    }
+
+    $_SESSION["recommendedcalories"] = $recommendedCalories;
+    $_SESSION["diet"] = $diet;
+    $_SESSION["intolerance"] = $intolerance;
+    header("Location: home.php");
+    exit;
 }
 ?>

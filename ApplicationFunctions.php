@@ -4,79 +4,36 @@ require_once ('BMRFormulas.php');
 require_once ('CurlFunctions.php');
 class ApplicationFunctions{
 
-    public static function getRecommendedCalories($username){
+    public static function getRecommendedCalories($userid, $logindb){
 
-        $logindb = new mysqli("192.168.2.4","testUser","12345","testdb");
-        if(mysqli_connect_errno())
-        {
-            echo "failed to connect to MYSQL:" . mysqli_connect_error();
-            exit();
-        }
-        else {
-            mysqli_select_db($logindb, "testdb");
-            //get userid from users table using username
-            $query = "select * from users where username = '$username'";
-            $runQuery = mysqli_query($logindb, $query) or die(mysqli_error($logindb));
-            while ($result = mysqli_fetch_array($runQuery, MYSQLI_ASSOC)) {
-                $userid = $result["userid"];
-
-            }
             $query = "select * from bmi where userid = '$userid'";
             $runQuery = mysqli_query($logindb, $query) or die(mysqli_error($logindb));
             while ($result = mysqli_fetch_array($runQuery, MYSQLI_ASSOC)) {
                 $recommendedCalories = $result["reccalories"];
             }
             return $recommendedCalories;
-        }
     }
-    public static function getMissingCalories($username){
-        $recommendedCalories = self::getRecommendedCalories($username);
-        $logindb = new mysqli("192.168.2.4","testUser","12345","testdb");
-        if(mysqli_connect_errno())
-        {
-            echo "failed to connect to MYSQL:" . mysqli_connect_error();
-            exit();
+
+    public static function getMissingCalories($userid, $logindb){
+        $recommendedCalories = self::getRecommendedCalories($userid, $logindb);
+            //get userid from users table using username
+        $currentDateTime= date('Y-m-d');
+
+        $query = "select * from calories where userid = '$userid' and date = '$currentDateTime'";
+        $runQuery = mysqli_query($logindb, $query) or die(mysqli_error($logindb));
+        while ($result = mysqli_fetch_array($runQuery, MYSQLI_ASSOC)) {
+            $consumedCalories = $result["dailycalories"];
+        }
+        if($consumedCalories == NULL){
+           return $missingCalories = 0;
         }
         else {
-            mysqli_select_db($logindb, "testdb");
-            //get userid from users table using username
-            $currentDateTime= date('Y-m-d');
-            $query = "select * from users where username = '$username'";
-            $runQuery = mysqli_query($logindb, $query) or die(mysqli_error($logindb));
-            while ($result = mysqli_fetch_array($runQuery, MYSQLI_ASSOC)) {
-                $userid = $result["userid"];
-
-            }
-            $query = "select * from calories where userid = '$userid' and date = '$currentDateTime'";
-            $runQuery = mysqli_query($logindb, $query) or die(mysqli_error($logindb));
-            while ($result = mysqli_fetch_array($runQuery, MYSQLI_ASSOC)) {
-                $consumedCalories = $result["dailycalories"];
-            }
-            if($consumedCalories == NULL){
-               return $missingCalories = 0;
-            }
-            else {
-                $missingCalories = $recommendedCalories - $consumedCalories;
-                return $missingCalories;
-            }
+            $missingCalories = $recommendedCalories - $consumedCalories;
+            return $missingCalories;
         }
     }
-    public static function getDietaryPreferences($username){
-        $logindb = new mysqli("192.168.2.4","testUser","12345","testdb");
-        if(mysqli_connect_errno())
-        {
-            echo "failed to connect to MYSQL:" . mysqli_connect_error();
-            exit();
-        }
-        else {
-            mysqli_select_db($logindb, "testdb");
-            //get userid from users table using username
-            $query = "select * from users where username = '$username'";
-            $runQuery = mysqli_query($logindb, $query) or die(mysqli_error($logindb));
-            while ($result = mysqli_fetch_array($runQuery, MYSQLI_ASSOC)) {
-                $userid = $result["userid"];
 
-            }
+    public static function getDietaryPreferences($userid, $logindb){
             $query = "select * from preferences where userid = '$userid'";
             $runQuery = mysqli_query($logindb, $query) or die(mysqli_error($logindb));
             while ($result = mysqli_fetch_array($runQuery, MYSQLI_ASSOC)) {
@@ -101,27 +58,9 @@ class ApplicationFunctions{
                 $diet = "&diet=pescetarian";
                 return $diet;
             }
-        }
-
-
     }
 
-    public static function getIntolerances($username){
-        $logindb = new mysqli("192.168.2.4","testUser","12345","testdb");
-        if(mysqli_connect_errno())
-        {
-            echo "failed to connect to MYSQL:" . mysqli_connect_error();
-            exit();
-        }
-        else {
-            mysqli_select_db($logindb, "testdb");
-            //get userid from users table using username
-            $query = "select * from users where username = '$username'";
-            $runQuery = mysqli_query($logindb, $query) or die(mysqli_error($logindb));
-            while ($result = mysqli_fetch_array($runQuery, MYSQLI_ASSOC)) {
-                $userid = $result["userid"];
-
-            }
+    public static function getIntolerances($userid, $logindb){
             $query = "select * from intolerances where userid = '$userid'";
             $runQuery = mysqli_query($logindb, $query) or die(mysqli_error($logindb));
             while ($result = mysqli_fetch_array($runQuery, MYSQLI_ASSOC)) {
@@ -145,15 +84,12 @@ class ApplicationFunctions{
                 $intolerance .= "&exclude=seafood";
             }
             return $intolerance;
-        }
 
     }
-public static function generateMealPlanFromCalories($username)
+
+public static function generateMealPlanFromCalories($recommendedCalories, $diet, $intolerance)
 {
     //get recommended calories
-    $recommendedCalories = self::getRecommendedCalories($username);
-    $diet = self::getDietaryPreferences($username);
-    $intolerance = self::getIntolerances($username);
     $result = CurlFunctions::curlGenerateMealPlanFromCalories($recommendedCalories, $diet, $intolerance);
     $array = get_object_vars($result);
 
@@ -168,12 +104,8 @@ public static function generateMealPlanFromCalories($username)
     return $mealIdsArray;
 }
 
-public static function generateMealPlanFromMissingCalories($username)
+public static function generateMealPlanFromMissingCalories($missingCalories, $diet, $intolerance)
 {
-    //get recommended calories
-    $missingCalories = self::getMissingCalories($username);
-    $diet = self::getDietaryPreferences($username);
-    $intolerance = self::getIntolerances($username);
     $result = CurlFunctions::curlGenerateMealPlanFromMissingCalories($missingCalories, $diet, $intolerance);
     $array = get_object_vars($result);
 
@@ -188,8 +120,8 @@ public static function generateMealPlanFromMissingCalories($username)
     return $mealIdsArray;
 }
 
-public static function getIndividualMealInformationAndDisplay($username){
-        $mealIdsArray = self::generateMealPlanFromCalories($username);
+public static function getIndividualMealInformationAndDisplay($recommendedCalories, $diet, $intolerance){
+        $mealIdsArray = self::generateMealPlanFromCalories($recommendedCalories, $diet, $intolerance);
         $cardContent = "";
         for($i=0; $i<= 8; $i++ ){
             $mealId = $mealIdsArray[$i];
@@ -223,8 +155,8 @@ public static function getIndividualMealInformationAndDisplay($username){
         return $cardContent;
 }
 
-    public static function getIndividualMealInformationForMissingCaloriesAndDisplay($username){
-        $mealIdsArray = self::generateMealPlanFromMissingCalories($username);
+    public static function getIndividualMealInformationForMissingCaloriesAndDisplay($missingCalories, $diet, $intolerance){
+        $mealIdsArray = self::generateMealPlanFromMissingCalories($missingCalories, $diet, $intolerance);
         $cardContent = "";
         for($i=0; $i<= 8; $i++ ){
             $mealId = $mealIdsArray[$i];
@@ -258,14 +190,14 @@ public static function getIndividualMealInformationAndDisplay($username){
         return $cardContent;
     }
 
-    public static function displayRecommendedRecipes($username){
-        $missingCalories = self::getMissingCalories($username);
+    public static function displayRecommendedRecipes($userid, $logindb,$diet, $intolerance, $recommendedCalories){
+        $missingCalories = self::getMissingCalories($userid, $logindb);
 
         if($missingCalories > 0){
-            return self::getIndividualMealInformationForMissingCaloriesAndDisplay($username);
+            return self::getIndividualMealInformationForMissingCaloriesAndDisplay($missingCalories, $diet, $intolerance);
         }
         else{
-            return self::getIndividualMealInformationAndDisplay($username);
+            return self::getIndividualMealInformationAndDisplay($recommendedCalories, $diet, $intolerance);
         }
     }
 
@@ -413,4 +345,5 @@ public static function returnRecipe($mealId)
         return $recipe;
     }
 }
+
 ?>
