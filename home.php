@@ -76,9 +76,9 @@ session_start();
 
 <!--Cards-->
 <?php
-include('ApplicationFunctions.php');
+include('testRabbitMQServer.php');
     $username= $_SESSION["username"];
-    $meals = ApplicationFunctions::getIndividualMealInformationAndDisplay($username);
+    $meals = getIndividualMealInformationAndDisplay($username);
     echo $meals;
 ?>
 

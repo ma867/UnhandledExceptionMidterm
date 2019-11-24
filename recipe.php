@@ -58,9 +58,9 @@ session_start();
     </div>
 </nav><br>
 <?php
-include('ApplicationFunctions.php');
+include('testRabbitMQServer.php');
 $mealId = $_GET["mealId"];
-$recipe = ApplicationFunctions::returnRecipe($mealId);
+$recipe = returnRecipe($mealId);
 echo $recipe;
 
 echo $response;

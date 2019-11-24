@@ -157,9 +157,9 @@ session_start();
                 <p class="text-white-50 mb-4">Below are some recommended meals for your target calories. </p>
                 <!--Cards-->
                 <?php
-                include('ApplicationFunctions.php');
+                include('testRabbitMQServer.php');
                 $username= $_SESSION["username"];
-                $meals =  ApplicationFunctions::displayRecommendedRecipes($username);
+                $meals =  displayRecommendedRecipes($username);
                 echo $meals;
                 ?>
             </div>
