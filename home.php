@@ -85,7 +85,6 @@ include('ApplicationFunctions.php');
     echo $meals;
 ?>
 
-
 <!--About Section-->
 <section class="page-section bg-danger" id="about">
     <div class="container">

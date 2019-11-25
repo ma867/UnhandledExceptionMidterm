@@ -58,6 +58,20 @@ function doRegister($username, $password, $email, $firstname, $lastname){
 			$query = "insert into users (username, password, email, firstname, lastname) values ('$username', '$password', '$email', '$firstname', '$lastname')";
 			$runQuery = mysqli_query($logindb, $query) or die(mysqli_error($logindb));
 			echo "your account has been created!";
+
+            $query = "select * from users where username = '$username'";
+            $runQuery = mysqli_query($logindb, $query) or die(mysqli_error($logindb));
+            while ($result = mysqli_fetch_array($runQuery, MYSQLI_ASSOC)) {
+                $userid = $result["userid"];
+
+            }
+            $recommendedCalories = ApplicationFunctions::getRecommendedCalories($userid, $logindb);
+            $diet = ApplicationFunctions::getDietaryPreferences($userid, $logindb);
+            $intolerance = ApplicationFunctions::getIntolerances($userid, $logindb);
+
+            $_SESSION["recommendedcalories"] = $recommendedCalories;
+            $_SESSION["diet"] = $diet;
+            $_SESSION["intolerance"] = $intolerance;
 			return 0;
         }
 	}
