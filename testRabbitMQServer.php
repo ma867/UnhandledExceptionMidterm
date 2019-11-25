@@ -25,7 +25,30 @@ function doLogin($username,$password)
 	if ($row > 0)
 	{
 		echo "user exists logged in!";	
-		return 1;
+		//return 1;
+        $query = "select * from users where username = '$username'";
+        $runQuery = mysqli_query($logindb, $query) or die(mysqli_error($logindb));
+        while ($result = mysqli_fetch_array($runQuery, MYSQLI_ASSOC)) {
+            $userid = $result["userid"];
+        }
+        $recommendedCalories = ApplicationFunctions::getRecommendedCalories($userid, $logindb);
+        $diet = ApplicationFunctions::getDietaryPreferences($userid, $logindb);
+        $intolerance = ApplicationFunctions::getIntolerances($userid, $logindb);
+        $missingCalories = ApplicationFunctions::getMissingCalories($recommendedCalories, $userid, $logindb);
+
+        $meals = ApplicationFunctions::getIndividualMealInformationAndDisplay($recommendedCalories, $diet, $intolerance);
+        $recommendedMeals =  ApplicationFunctions::displayRecommendedRecipes($missingCalories, $diet, $intolerance, $recommendedCalories);
+
+        $reponseArray = array();
+        $responseArray['recommendedCalories'] = $recommendedCalories;
+        $responseArray['diet'] = $diet;
+        $responseArray['intolerance'] = $intolerance;
+        $responseArray['meals'] = $meals;
+        $responseArray['recommendedMeals'] = $recommendedMeals;
+        $responseArray['userid'] = $userid;
+        $responseArray['missingCalories'] = $missingCalories;
+
+        return $responseArray;
 		}
 	else
 	{
@@ -46,16 +69,53 @@ function getAllTheInfoForApi($username){
         $runQuery = mysqli_query($logindb, $query) or die(mysqli_error($logindb));
         while ($result = mysqli_fetch_array($runQuery, MYSQLI_ASSOC)) {
             $userid = $result["userid"];
-
         }
+
         $recommendedCalories = ApplicationFunctions::getRecommendedCalories($userid, $logindb);
+        $missingCalories = ApplicationFunctions::getMissingCalories($recommendedCalories, $userid, $logindb);
         $diet = ApplicationFunctions::getDietaryPreferences($userid, $logindb);
         $intolerance = ApplicationFunctions::getIntolerances($userid, $logindb);
 
+
+        $meals = ApplicationFunctions::getIndividualMealInformationAndDisplay($recommendedCalories, $diet, $intolerance);
+        $recommendedMeals =  ApplicationFunctions::displayRecommendedRecipes($missingCalories, $diet, $intolerance, $recommendedCalories);
+
+        $reponseArray = array();
+        $responseArray['recommendedCalories'] = $recommendedCalories;
+        $responseArray['missingCalories'] = $missingCalories;
+        $responseArray['diet'] = $diet;
+        $responseArray['intolerance'] = $intolerance;
+        $responseArray['meals'] = $meals;
+        $responseArray['recommendedMeals'] = $recommendedMeals;
+        $responseArray['userid'] = $userid;
+
+
+        return $responseArray;
+
+
+        /*
         $_SESSION["recommendedcalories"] = $recommendedCalories;
         $_SESSION["diet"] = $diet;
         $_SESSION["intolerance"] = $intolerance;
 
+        $recommendedCalories = $_SESSION["recommendedcalories"];
+        $diet = $_SESSION["diet"];
+        $intolerance = $_SESSION["intolerance"];
+
+        $meals = ApplicationFunctions::getIndividualMealInformationAndDisplay($recommendedCalories, $diet, $intolerance);
+    	$_SESSION["meals"] = $meals;
+        echo $_SESSION["meals"];
+	//return $meals;
+
+        $reponseArray = array();
+        $responseArray['recommendedCalories'] = $_SESSION["recommendedcalories"];
+        $responseArray['diet'] = $_SESSION["diet"];
+        $responseArray['intolerance'] = $_SESSION["intolerance"];
+        $responseArray['meals'] = $_SESSION["meals"];
+
+        return $responseArray;
+        */
+	   
     }
 
 }
@@ -168,8 +228,8 @@ function registerUserInfo($username, $age, $weight, $height, $gender, $lifestyle
     registerUserBMI($username, $age, $weight, $height, $gender, $lifestyle);
     registerUserPreferences($username, $vegetarian, $nonvegetarian, $vegan, $pescetarian);
     registerUserIntolerances($username, $gluten, $dairy, $peanut, $seafood);
-    getAllTheInfoForApi($username);
-    return 0;
+    $infoArray = getAllTheInfoForApi($username);
+    return $infoArray;
 }
 
 function requestProcessor($request)

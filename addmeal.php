@@ -25,6 +25,7 @@ if($response == 1)
 else{
 
 //echo "request received";
+    $_SESSION['recommendedmeals'] = $response;
     header("Location: addMealSucessful.php");
     exit;
 }

@@ -15,15 +15,22 @@ $request['password'] = $password;
 //$request['message'] = "HI";
 $response = $client->send_request($request);
 
-if($response == 1)
+if($response == 0)
 {
+header("Location: unsuccessful.php");
+exit;}
+else{
 session_start();
 $_SESSION["username"] = $username;
 $_SESSION["password"] = $password;
+$_SESSION['recommendedcalories'] = $response['recommendedCalories'];
+$_SESSION['diet'] =  $response['diet'];
+$_SESSION['intolerance'] =  $response['intolerance'];
+$_SESSION['meals'] =  $response['meals'];
+$_SESSION['userid'] = $response['userid'];
+$_SESSION['missingcalories'] = $response['missingCalories'];
+$_SESSION['recommendedmeals'] = $response['recommendedMeals'];
 header("Location: home.php");
-exit;}
-else{
-header("Location: unsuccessful.php");
 exit;}
 
 ?>

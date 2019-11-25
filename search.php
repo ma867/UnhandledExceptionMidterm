@@ -159,8 +159,11 @@ session_start();
                 <?php
                 include('ApplicationFunctions.php');
                 $username= $_SESSION["username"];
-                $meals =  ApplicationFunctions::displayRecommendedRecipes($username);
-                echo $meals;
+                $recommendedCalories = $_SESSION["recommendedcalories"];
+                $diet = $_SESSION["diet"];
+                $intolerance = $_SESSION["intolerance"];
+                $recommendedMeals = $_SESSION['recommendedmeals'];
+                echo $recommendedMeals;
                 ?>
             </div>
         </div>

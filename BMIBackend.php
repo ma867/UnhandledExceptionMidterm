@@ -90,6 +90,13 @@ header("Location: bmiunsuccessful.php");
 exit;
 }
 else{
+    $_SESSION['recommendedcalories'] = $response['recommendedCalories'];
+    $_SESSION['diet'] =  $response['diet'];
+    $_SESSION['intolerance'] =  $response['intolerance'];
+    $_SESSION['meals'] =  $response['meals'];
+    $_SESSION['userid'] = $response['userid'];
+    $_SESSION['missingcalories'] = $response['missingCalories'];
+    $_SESSION['recommendedmeals'] = $response['recommendedMeals'];
     header("Location: home.php");
     exit;
 }

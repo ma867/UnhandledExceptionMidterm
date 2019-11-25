@@ -14,8 +14,8 @@ class ApplicationFunctions{
             return $recommendedCalories;
     }
 
-    public static function getMissingCalories($userid, $logindb){
-        $recommendedCalories = self::getRecommendedCalories($userid, $logindb);
+    public static function getMissingCalories($recommendedCalories,$userid, $logindb){
+        //$recommendedCalories = self::getRecommendedCalories($userid, $logindb);
             //get userid from users table using username
         $currentDateTime= date('Y-m-d');
 
@@ -190,9 +190,8 @@ public static function getIndividualMealInformationAndDisplay($recommendedCalori
         return $cardContent;
     }
 
-    public static function displayRecommendedRecipes($userid, $logindb,$diet, $intolerance, $recommendedCalories){
-        $missingCalories = self::getMissingCalories($userid, $logindb);
-
+    public static function displayRecommendedRecipes($missingCalories, $diet, $intolerance, $recommendedCalories){
+       // $missingCalories = self::getMissingCalories($userid, $logindb);
         if($missingCalories > 0){
             return self::getIndividualMealInformationForMissingCaloriesAndDisplay($missingCalories, $diet, $intolerance);
         }
@@ -241,24 +240,30 @@ public static function getIndividualMealInformationAndDisplay($recommendedCalori
                 while ($result = mysqli_fetch_array($runQuery, MYSQLI_ASSOC)) {
                     $dailyCalories = $result["dailycalories"];
                 }
-        echo $dailyCalories;
-		//check if there is an entry in the calories table for the given userid and date
-		$query = "select * from calories where userid='$userid' and date='$mealDate'";
- 		$runQuery = mysqli_query($logindb, $query) or die(mysqli_error($logindb));
-            	$row = mysqli_num_rows($runQuery);
-           	 if ($row == 0) {
-                    $query1 = "insert into calories(userid, dailycalories, date) values ('$userid', '$dailyCalories', '$mealDate')";
-                    echo $query;
-                    $runQuery = mysqli_query($logindb, $query1) or die(mysqli_error($logindb));
-           	 }
-		    else {
-                    $query2 = "update calories set dailycalories = '$dailyCalories' where userid = '$userid' and date = '$mealDate'";
-		            echo $query2;
-                    $runQuery = mysqli_query($logindb, $query2) or die(mysqli_error($logindb));
-		     }
+                echo $dailyCalories;
+                //check if there is an entry in the calories table for the given userid and date
+                $query = "select * from calories where userid='$userid' and date='$mealDate'";
+                $runQuery = mysqli_query($logindb, $query) or die(mysqli_error($logindb));
+                        $row = mysqli_num_rows($runQuery);
+                 if ($row == 0) {
+                        $query1 = "insert into calories(userid, dailycalories, date) values ('$userid', '$dailyCalories', '$mealDate')";
+                        echo $query;
+                        $runQuery = mysqli_query($logindb, $query1) or die(mysqli_error($logindb));
+                 }
+                else {
+                        $query2 = "update calories set dailycalories = '$dailyCalories' where userid = '$userid' and date = '$mealDate'";
+                        echo $query2;
+                        $runQuery = mysqli_query($logindb, $query2) or die(mysqli_error($logindb));
+                 }
 
-		    echo "Daily calories calculated";
-                return 0;
+                $recommendedCalories = self::getRecommendedCalories($userid, $logindb);
+                $diet = self::getDietaryPreferences($userid, $logindb);
+                $intolerance = self::getIntolerances($userid, $logindb);
+                $missingCalories = self::getMissingCalories($recommendedCalories, $userid, $logindb);
+                $recommendedMeals =  ApplicationFunctions::displayRecommendedRecipes($missingCalories, $diet, $intolerance, $recommendedCalories);
+                echo "Daily calories calculated";
+                echo $recommendedMeals;
+                return $recommendedMeals;
             }
         }
 

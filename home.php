@@ -77,11 +77,11 @@ session_start();
 <!--Cards-->
 <?php
 include('ApplicationFunctions.php');
-    $username= $_SESSION["username"];
-    $recommendedCalories = $_SESSION["recommendedcalories"];
-    $diet = $_SESSION["diet"];
-    $intolerance = $_SESSION["intolerance"];
-    $meals = ApplicationFunctions::getIndividualMealInformationAndDisplay($recommendedCalories, $diet, $intolerance);
+    //$username= $_SESSION["username"];
+    //$recommendedCalories = $_SESSION["recommendedcalories"];
+    //$diet = $_SESSION["diet"];
+    //$intolerance = $_SESSION["intolerance"];
+    $meals = $_SESSION["meals"];
     echo $meals;
 ?>
 
