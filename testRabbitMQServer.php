@@ -34,6 +34,32 @@ function doLogin($username,$password)
 
 }
 
+function getAllTheInfoForApi($username){
+    $logindb = new mysqli("192.168.2.4","testUser","12345","testdb");
+    if(mysqli_connect_errno())
+    {
+        echo "failed to connect to MYSQL:" . mysqli_connect_error();
+        exit();
+    }
+    else {
+        $query = "select * from users where username = '$username'";
+        $runQuery = mysqli_query($logindb, $query) or die(mysqli_error($logindb));
+        while ($result = mysqli_fetch_array($runQuery, MYSQLI_ASSOC)) {
+            $userid = $result["userid"];
+
+        }
+        $recommendedCalories = ApplicationFunctions::getRecommendedCalories($userid, $logindb);
+        $diet = ApplicationFunctions::getDietaryPreferences($userid, $logindb);
+        $intolerance = ApplicationFunctions::getIntolerances($userid, $logindb);
+
+        $_SESSION["recommendedcalories"] = $recommendedCalories;
+        $_SESSION["diet"] = $diet;
+        $_SESSION["intolerance"] = $intolerance;
+
+    }
+
+}
+
 function doRegister($username, $password, $email, $firstname, $lastname){
 	$logindb = new mysqli("192.168.2.4","testUser","12345","testdb");
 	if(mysqli_connect_errno())
@@ -58,20 +84,6 @@ function doRegister($username, $password, $email, $firstname, $lastname){
 			$query = "insert into users (username, password, email, firstname, lastname) values ('$username', '$password', '$email', '$firstname', '$lastname')";
 			$runQuery = mysqli_query($logindb, $query) or die(mysqli_error($logindb));
 			echo "your account has been created!";
-
-            $query = "select * from users where username = '$username'";
-            $runQuery = mysqli_query($logindb, $query) or die(mysqli_error($logindb));
-            while ($result = mysqli_fetch_array($runQuery, MYSQLI_ASSOC)) {
-                $userid = $result["userid"];
-
-            }
-            $recommendedCalories = ApplicationFunctions::getRecommendedCalories($userid, $logindb);
-            $diet = ApplicationFunctions::getDietaryPreferences($userid, $logindb);
-            $intolerance = ApplicationFunctions::getIntolerances($userid, $logindb);
-
-            $_SESSION["recommendedcalories"] = $recommendedCalories;
-            $_SESSION["diet"] = $diet;
-            $_SESSION["intolerance"] = $intolerance;
 			return 0;
         }
 	}
@@ -156,6 +168,7 @@ function registerUserInfo($username, $age, $weight, $height, $gender, $lifestyle
     registerUserBMI($username, $age, $weight, $height, $gender, $lifestyle);
     registerUserPreferences($username, $vegetarian, $nonvegetarian, $vegan, $pescetarian);
     registerUserIntolerances($username, $gluten, $dairy, $peanut, $seafood);
+    getAllTheInfoForApi($username);
     return 0;
 }
 
