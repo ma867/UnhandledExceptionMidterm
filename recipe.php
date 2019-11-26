@@ -59,8 +59,7 @@ session_start();
 </nav><br>
 <?php
 include('ApplicationFunctions.php');
-$mealId = $_GET["mealId"];
-$recipe = ApplicationFunctions::returnRecipe($mealId);
+ $recipe = $_SESSION["recipe"];
 echo $recipe;
 
 echo $response;

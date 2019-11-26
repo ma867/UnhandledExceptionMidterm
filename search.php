@@ -96,7 +96,7 @@ session_start();
 
 
                     cardContent += "<img class=\"card-img-top\" src=\"" + imageurl + mealImage + "\" alt=\"Card image cap\">" + "<div class=\"card-body\">" + "<h5 class=\"card-title\">" + mealTitle + "</h5>" + "<p class=\"card-text\">";
-                    cardContent += "Servings: " + mealServings + "</br>" +  "Ready in " + mealReadyInMinutes + "</br>" + "</p>" + "<a href=\"like.php?mealId=" + mealId + "\" class=\"btn btn-danger\">like</a>" +"</div>"+  "<div class=\"btn-block\" style=\"text-align: center;\"><a href=\"recipe.php?mealId=" + mealId + "\" class=\"btn btn-danger\">recipe</a><a href=\"addmeal.php?mealId=" + mealId + "\" class=\"btn btn-danger\">add meal</a></div><br></div></div>";
+                    cardContent += "Servings: " + mealServings + "</br>" +  "Ready in " + mealReadyInMinutes + "</br>" + "</p>" + "<a href=\"like.php?mealId=" + mealId + "\" class=\"btn btn-danger\">like</a>" +"</div>"+  "<div class=\"btn-block\" style=\"text-align: center;\"><a href=\"recipeBackend.php?mealId=" + mealId + "\" class=\"btn btn-danger\">recipe</a><a href=\"addmeal.php?mealId=" + mealId + "\" class=\"btn btn-danger\">add meal</a></div><br></div></div>";
 
                     if(i==2){cardContent += "</div></div></div></br>";}
                     if(i==5){cardContent += "</div></div></div></br>";}

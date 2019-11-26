@@ -92,30 +92,6 @@ function getAllTheInfoForApi($username){
 
         return $responseArray;
 
-
-        /*
-        $_SESSION["recommendedcalories"] = $recommendedCalories;
-        $_SESSION["diet"] = $diet;
-        $_SESSION["intolerance"] = $intolerance;
-
-        $recommendedCalories = $_SESSION["recommendedcalories"];
-        $diet = $_SESSION["diet"];
-        $intolerance = $_SESSION["intolerance"];
-
-        $meals = ApplicationFunctions::getIndividualMealInformationAndDisplay($recommendedCalories, $diet, $intolerance);
-    	$_SESSION["meals"] = $meals;
-        echo $_SESSION["meals"];
-	//return $meals;
-
-        $reponseArray = array();
-        $responseArray['recommendedCalories'] = $_SESSION["recommendedcalories"];
-        $responseArray['diet'] = $_SESSION["diet"];
-        $responseArray['intolerance'] = $_SESSION["intolerance"];
-        $responseArray['meals'] = $_SESSION["meals"];
-
-        return $responseArray;
-        */
-	   
     }
 
 }
@@ -252,6 +228,8 @@ function requestProcessor($request)
             return ApplicationFunctions::addInformationToMealsAndCaloriesTables($request['username'], $request['mealId']);
         case "insertlike":
             return ApplicationFunctions::addMealToLikesTable($request['username'], $request['mealId']);
+        case "returnrecipe":
+            return ApplicationFunctions::returnRecipe($request['mealId']);
     }
     return array("returnCode" => '0', 'message'=>"Server received request and processed");
 }
