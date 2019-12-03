@@ -4,6 +4,207 @@ require_once ('BMRFormulas.php');
 require_once ('CurlFunctions.php');
 class ApplicationFunctions{
 
+    public static function doLogin($username,$password)
+    {
+        $logindb = new mysqli("192.168.2.4","testUser","12345","testdb");
+        if(mysqli_connect_errno())
+        {
+            echo "failed to connect to MYSQL:" . mysqli_connect_error();
+            exit();
+        }
+        print "connected";
+
+        mysqli_select_db($logindb, "testdb");
+        $password = sha1($password);
+        $query = "select * from users where username = '$username' and password = '$password'";
+        $runQuery = mysqli_query($logindb, $query) or die(mysqli_error($logindb));
+        $row = mysqli_num_rows($runQuery);
+        if ($row > 0)
+        {
+            echo "user exists logged in!";
+            //return 1;
+            $query = "select * from users where username = '$username'";
+            $runQuery = mysqli_query($logindb, $query) or die(mysqli_error($logindb));
+            while ($result = mysqli_fetch_array($runQuery, MYSQLI_ASSOC)) {
+                $userid = $result["userid"];
+            }
+            $recommendedCalories = self::getRecommendedCalories($userid, $logindb);
+            $diet = self::getDietaryPreferences($userid, $logindb);
+            $intolerance = self::getIntolerances($userid, $logindb);
+            $missingCalories = self::getMissingCalories($recommendedCalories, $userid, $logindb);
+
+            $meals = self::getIndividualMealInformationAndDisplay($recommendedCalories, $diet, $intolerance);
+            $recommendedMeals =  self::displayRecommendedRecipes($missingCalories, $diet, $intolerance, $recommendedCalories);
+
+            $reponseArray = array();
+            $responseArray['recommendedCalories'] = $recommendedCalories;
+            $responseArray['diet'] = $diet;
+            $responseArray['intolerance'] = $intolerance;
+            $responseArray['meals'] = $meals;
+            $responseArray['recommendedMeals'] = $recommendedMeals;
+            $responseArray['userid'] = $userid;
+            $responseArray['missingCalories'] = $missingCalories;
+
+            return $responseArray;
+        }
+        else
+        {
+            echo "user doesn't exist";
+            return 0;}
+
+    }
+
+    public static function getAllTheInfoForApi($username){
+        $logindb = new mysqli("192.168.2.4","testUser","12345","testdb");
+        if(mysqli_connect_errno())
+        {
+            echo "failed to connect to MYSQL:" . mysqli_connect_error();
+            exit();
+        }
+        else {
+            $query = "select * from users where username = '$username'";
+            $runQuery = mysqli_query($logindb, $query) or die(mysqli_error($logindb));
+            while ($result = mysqli_fetch_array($runQuery, MYSQLI_ASSOC)) {
+                $userid = $result["userid"];
+            }
+
+            $recommendedCalories = self::getRecommendedCalories($userid, $logindb);
+            $missingCalories = self::getMissingCalories($recommendedCalories, $userid, $logindb);
+            $diet = self::getDietaryPreferences($userid, $logindb);
+            $intolerance = self::getIntolerances($userid, $logindb);
+
+
+            $meals = self::getIndividualMealInformationAndDisplay($recommendedCalories, $diet, $intolerance);
+            $recommendedMeals =  self::displayRecommendedRecipes($missingCalories, $diet, $intolerance, $recommendedCalories);
+
+            $reponseArray = array();
+            $responseArray['recommendedCalories'] = $recommendedCalories;
+            $responseArray['missingCalories'] = $missingCalories;
+            $responseArray['diet'] = $diet;
+            $responseArray['intolerance'] = $intolerance;
+            $responseArray['meals'] = $meals;
+            $responseArray['recommendedMeals'] = $recommendedMeals;
+            $responseArray['userid'] = $userid;
+
+
+            return $responseArray;
+
+        }
+
+    }
+
+    public static function doRegister($username, $password, $email, $firstname, $lastname){
+        $logindb = new mysqli("192.168.2.4","testUser","12345","testdb");
+        if(mysqli_connect_errno())
+        {
+            echo "failed to connect to MYSQL:" . mysqli_connect_error();
+            exit();
+        }
+        else{
+            print "connected";
+
+            mysqli_select_db($logindb, "testdb");
+            $query = "select * from users where username = '$username' or email = '$email'";
+            $runQuery = mysqli_query($logindb, $query) or die(mysqli_error($logindb));
+            $row = mysqli_num_rows($runQuery);
+            if ($row >= 1){
+                echo "user already exists. please use a different email/username";
+                return 1;
+            }
+            else
+            {
+                $password = sha1($password);
+                $query = "insert into users (username, password, email, firstname, lastname) values ('$username', '$password', '$email', '$firstname', '$lastname')";
+                $runQuery = mysqli_query($logindb, $query) or die(mysqli_error($logindb));
+                echo "your account has been created!";
+                return 0;
+            }
+        }
+
+    }
+    public static function registerUserIntolerances($username, $gluten, $dairy, $peanut, $seafood){
+
+        $logindb = new mysqli("192.168.2.4","testUser","12345","testdb");
+        if(mysqli_connect_errno())
+        {
+            echo "failed to connect to MYSQL:" . mysqli_connect_error();
+            exit();
+        }
+        else {
+            mysqli_select_db($logindb, "testdb");
+            //get userid from users table using username
+            $query = "select * from users where username = '$username'";
+            $runQuery = mysqli_query($logindb, $query) or die(mysqli_error($logindb));
+            while ($result = mysqli_fetch_array($runQuery, MYSQLI_ASSOC)) {
+                $userid = $result["userid"];
+            }
+            //insert user info using the userid
+            $query = "insert into intolerances(userid, gluten, dairy, peanut, seafood) values ('$userid', '$gluten', '$dairy', '$peanut', '$seafood')";
+            $runQuery = mysqli_query($logindb, $query) or die(mysqli_error($logindb));
+            return 0;
+
+        }
+    }
+
+    public static function registerUserPreferences($username, $vegetarian, $nonvegetarian, $vegan, $pescetarian){
+        //check what dietary preference the user chose and define which is "true"
+        $logindb = new mysqli("192.168.2.4","testUser","12345","testdb");
+        if(mysqli_connect_errno())
+        {
+            echo "failed to connect to MYSQL:" . mysqli_connect_error();
+            exit();
+        }
+        else {
+            mysqli_select_db($logindb, "testdb");
+            //get userid from users table using username
+            $query = "select * from users where username = '$username'";
+            $runQuery = mysqli_query($logindb, $query) or die(mysqli_error($logindb));
+            while ($result = mysqli_fetch_array($runQuery, MYSQLI_ASSOC)) {
+                $userid = $result["userid"];
+            }
+            //insert user info using the userid
+            $query = "insert into preferences(userid, vegetarian, nonvegetarian, vegan, pescetarian) values ('$userid', '$vegetarian', '$nonvegetarian', '$vegan', '$pescetarian')";
+            $runQuery = mysqli_query($logindb, $query) or die(mysqli_error($logindb));
+            return 0;
+
+        }
+    }
+    public static function registerUserBMI($username, $age, $weight, $height, $gender, $lifestyle){
+        $logindb = new mysqli("192.168.2.4","testUser","12345","testdb");
+        if(mysqli_connect_errno())
+        {
+            echo "failed to connect to MYSQL:" . mysqli_connect_error();
+            exit();
+        }
+        else {
+            mysqli_select_db($logindb, "testdb");
+            //get userid from users table using username
+            $query = "select * from users where username = '$username'";
+            $runQuery = mysqli_query($logindb, $query) or die(mysqli_error($logindb));
+            while ($result = mysqli_fetch_array($runQuery, MYSQLI_ASSOC)) {
+                $userid = $result["userid"];
+            }
+            //insert user info using the userid
+            $query = "insert into bmi(userid, weight, height, age, gender, lifestyle) values ('$userid', '$weight', '$height', '$age', '$gender', '$lifestyle')";
+            $runQuery = mysqli_query($logindb, $query) or die(mysqli_error($logindb));
+            //calculate recommended calories
+            $recommendedCalories = BMRFormulas::calculateCalories($age, $weight, $height, $gender, $lifestyle);
+            //insert recommended calories into bmi table
+            $query = "update bmi set reccalories = '$recommendedCalories' where userid = '$userid'";
+            $runQuery = mysqli_query($logindb, $query) or die(mysqli_error($logindb));
+            return 0;
+        }
+
+    }
+
+    public static function registerUserInfo($username, $age, $weight, $height, $gender, $lifestyle, $vegetarian, $nonvegetarian, $vegan, $pescetarian, $gluten, $dairy, $peanut, $seafood){
+        registerUserBMI($username, $age, $weight, $height, $gender, $lifestyle);
+        registerUserPreferences($username, $vegetarian, $nonvegetarian, $vegan, $pescetarian);
+        registerUserIntolerances($username, $gluten, $dairy, $peanut, $seafood);
+        $infoArray = getAllTheInfoForApi($username);
+        return $infoArray;
+    }
+
     public static function getRecommendedCalories($userid, $logindb){
 
             $query = "select * from bmi where userid = '$userid'";
@@ -260,7 +461,7 @@ public static function getIndividualMealInformationAndDisplay($recommendedCalori
                 $diet = self::getDietaryPreferences($userid, $logindb);
                 $intolerance = self::getIntolerances($userid, $logindb);
                 $missingCalories = self::getMissingCalories($recommendedCalories, $userid, $logindb);
-                $recommendedMeals =  ApplicationFunctions::displayRecommendedRecipes($missingCalories, $diet, $intolerance, $recommendedCalories);
+                $recommendedMeals =  self::displayRecommendedRecipes($missingCalories, $diet, $intolerance, $recommendedCalories);
                 echo "Daily calories calculated";
                 echo $recommendedMeals;
                 return $recommendedMeals;
