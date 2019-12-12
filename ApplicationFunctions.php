@@ -6,7 +6,7 @@ class ApplicationFunctions{
 
     public static function doLogin($username,$password)
     {
-        $logindb = new mysqli("192.168.2.4","testUser","12345","testdb");
+        $logindb = new mysqli("192.168.2.10","testUser","12345","testdb");
         if(mysqli_connect_errno())
         {
             echo "failed to connect to MYSQL:" . mysqli_connect_error();
@@ -55,7 +55,7 @@ class ApplicationFunctions{
     }
 
     public static function getAllTheInfoForApi($username){
-        $logindb = new mysqli("192.168.2.4","testUser","12345","testdb");
+        $logindb = new mysqli("192.168.2.10","testUser","12345","testdb");
         if(mysqli_connect_errno())
         {
             echo "failed to connect to MYSQL:" . mysqli_connect_error();
@@ -94,7 +94,7 @@ class ApplicationFunctions{
     }
 
     public static function doRegister($username, $password, $email, $firstname, $lastname){
-        $logindb = new mysqli("192.168.2.4","testUser","12345","testdb");
+        $logindb = new mysqli("192.168.2.10","testUser","12345","testdb");
         if(mysqli_connect_errno())
         {
             echo "failed to connect to MYSQL:" . mysqli_connect_error();
@@ -124,7 +124,7 @@ class ApplicationFunctions{
     }
     public static function registerUserIntolerances($username, $gluten, $dairy, $peanut, $seafood){
 
-        $logindb = new mysqli("192.168.2.4","testUser","12345","testdb");
+        $logindb = new mysqli("192.168.2.10","testUser","12345","testdb");
         if(mysqli_connect_errno())
         {
             echo "failed to connect to MYSQL:" . mysqli_connect_error();
@@ -148,7 +148,7 @@ class ApplicationFunctions{
 
     public static function registerUserPreferences($username, $vegetarian, $nonvegetarian, $vegan, $pescetarian){
         //check what dietary preference the user chose and define which is "true"
-        $logindb = new mysqli("192.168.2.4","testUser","12345","testdb");
+        $logindb = new mysqli("192.168.2.10","testUser","12345","testdb");
         if(mysqli_connect_errno())
         {
             echo "failed to connect to MYSQL:" . mysqli_connect_error();
@@ -170,7 +170,7 @@ class ApplicationFunctions{
         }
     }
     public static function registerUserBMI($username, $age, $weight, $height, $gender, $lifestyle){
-        $logindb = new mysqli("192.168.2.4","testUser","12345","testdb");
+        $logindb = new mysqli("192.168.2.10","testUser","12345","testdb");
         if(mysqli_connect_errno())
         {
             echo "failed to connect to MYSQL:" . mysqli_connect_error();
@@ -404,7 +404,7 @@ public static function getIndividualMealInformationAndDisplay($recommendedCalori
 
     public static function addInformationToMealsAndCaloriesTables($username, $mealId)
     {
-        $logindb = new mysqli("192.168.2.4", "testUser", "12345", "testdb");
+        $logindb = new mysqli("192.168.2.10", "testUser", "12345", "testdb");
         if (mysqli_connect_errno()) {
             echo "failed to connect to MYSQL:" . mysqli_connect_error();
             exit();
@@ -472,7 +472,7 @@ public static function getIndividualMealInformationAndDisplay($recommendedCalori
 
     public static function addMealToLikesTable($username, $mealId)
     {
-        $logindb = new mysqli("192.168.2.4", "testUser", "12345", "testdb");
+        $logindb = new mysqli("192.168.2.10", "testUser", "12345", "testdb");
         if (mysqli_connect_errno()) {
             echo "failed to connect to MYSQL:" . mysqli_connect_error();
             exit();
