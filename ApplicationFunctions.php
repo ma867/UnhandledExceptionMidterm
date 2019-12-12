@@ -198,10 +198,10 @@ class ApplicationFunctions{
     }
 
     public static function registerUserInfo($username, $age, $weight, $height, $gender, $lifestyle, $vegetarian, $nonvegetarian, $vegan, $pescetarian, $gluten, $dairy, $peanut, $seafood){
-        registerUserBMI($username, $age, $weight, $height, $gender, $lifestyle);
-        registerUserPreferences($username, $vegetarian, $nonvegetarian, $vegan, $pescetarian);
-        registerUserIntolerances($username, $gluten, $dairy, $peanut, $seafood);
-        $infoArray = getAllTheInfoForApi($username);
+        self::registerUserBMI($username, $age, $weight, $height, $gender, $lifestyle);
+        self::registerUserPreferences($username, $vegetarian, $nonvegetarian, $vegan, $pescetarian);
+        self::registerUserIntolerances($username, $gluten, $dairy, $peanut, $seafood);
+        $infoArray = self::getAllTheInfoForApi($username);
         return $infoArray;
     }
 
