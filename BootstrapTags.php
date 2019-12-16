@@ -76,8 +76,8 @@ class BootstrapTags
     }
 
     public static function createRecipePage($mealId, $mealTitle, $mealReadyInMinutes, $modifiedIngredients, $ingredients, $recipeSteps, $calories, $fat, $saturatedFat, $carbohydrates, $sugar, $cholesterol, $sodium, $protein, $fiber){
-
-        $recipe = "<div class=\"modal fade\" id=\"modifyMenu\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"modifyMenuLabel\" aria-hidden=\"true\"><div class=\"modal-dialog\" role=\"document\">
+        $recipe = "<button type=\"button\" class=\"btn btn-danger float-right\" data-toggle=\"modal\" data-target=\"#modifyMenu\">Modify recipe</button>";
+        $recipe .= "<div class=\"modal fade\" id=\"modifyMenu\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"modifyMenuLabel\" aria-hidden=\"true\"><div class=\"modal-dialog\" role=\"document\">
                     <div class=\"modal-content\"><div class=\"modal-header\"><h5 class=\"modal-title\" id=\"modifyMenuLabel\">Modify Ingredients</h5><button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\">
                      <span aria-hidden=\"true\">&times;</span></button></div><div class=\"modal-body\"><p>Check any ingredients to discard for calories recalculation:</p>";
 

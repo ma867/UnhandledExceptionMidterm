@@ -61,8 +61,6 @@ session_start();
 include('ApplicationFunctions.php');
  $recipe = $_SESSION["recipe"];
 echo $recipe;
-
-echo $response;
 ?>
 <footer class="container-fluid py-5" style="background-color: white;">
     <div class="row">
