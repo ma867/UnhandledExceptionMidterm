@@ -47,7 +47,7 @@ class BootstrapTags
         return "</p>";
     }
     public static function createButtonOfCard(){
-        return " <div class=\"btn-block\" style=\"text-align: center;\"><a href=\"modifiedRecipeBackend.php?mealId=";
+        return " <div class=\"btn-block\" style=\"text-align: center;\"><a href=\"recipeBackend.php?mealId=";
     }
 
     public static function closeButtonOfCard(){
