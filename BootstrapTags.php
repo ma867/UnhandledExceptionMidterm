@@ -47,12 +47,20 @@ class BootstrapTags
         return "</p>";
     }
     public static function createButtonOfCard(){
-        return " <div class=\"btn-block\" style=\"text-align: center;\"><a href=\"recipeBackend.php?mealId=";
+        return " <div class=\"btn-block\" style=\"text-align: center;\"><a href=\"modifiedRecipeBackend.php?mealId=";
     }
 
     public static function closeButtonOfCard(){
         return "\" class=\"btn btn-danger\">recipe</a>" ;
     }
+    public static function createModifyRecipeButtonOfCard(){
+        return " <div class=\"btn-block\" style=\"text-align: center;\"><a href=\"modifiedRecipeBackend.php?mealId=";
+    }
+
+    public static function closeModifyRecipeButtonOfCard(){
+        return "\" class=\"btn btn-danger\">Modify recipe</a>" ;
+    }
+
     public static function createMealButtonOfCard(){
         return "<a href=\"addmeal.php?mealId=";
     }
@@ -67,8 +75,22 @@ class BootstrapTags
         return "\" class=\"btn btn-danger\">Like</a></div><br>" ;
     }
 
-    public static function createRecipePage($mealTitle, $mealReadyInMinutes, $ingredients, $recipeSteps, $calories, $fat, $saturatedFat, $carbohydrates, $sugar, $cholesterol, $sodium, $protein, $fiber){
-        $recipe = "<div class=\"container\"><h2>" . $mealTitle . "</h2><div class=\"w3-card-4\" style=\"width:70%\"><p>Cook time:" .  $mealReadyInMinutes . "</p></div><section><h4>Recipe</h4><h6><b>Ingredients</b></h6><p>" . $ingredients;
+    public static function createRecipePage($mealId, $mealTitle, $mealReadyInMinutes, $mealIngredients, $ingredients, $recipeSteps, $calories, $fat, $saturatedFat, $carbohydrates, $sugar, $cholesterol, $sodium, $protein, $fiber){
+
+        $recipe = "<div class=\"modal fade\" id=\"modifyMenu\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"modifyMenuLabel\" aria-hidden=\"true\"><div class=\"modal-dialog\" role=\"document\">
+                    <div class=\"modal-content\"><div class=\"modal-header\"><h5 class=\"modal-title\" id=\"modifyMenuLabel\">Modify Ingredients</h5><button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\">
+                     <span aria-hidden=\"true\">&times;</span></button></div><div class=\"modal-body\"><p>Check any ingredients to discard for calories recalculation:</p>";
+
+        $modifiedIngredients = "";
+        for ($i = 0; $i <= sizeof($mealIngredients) - 1; $i++) {
+            $modifiedIngredients .= "<div class=\"form-check\"><input class=\"form-check-input\" type=\"checkbox\" name=\"" . $mealIngredients[$i]->name . "\" id=\"" . $mealIngredients[$i]->name ;
+            $modifiedIngredients .= "\"><label class=\"form-check-label\" for=\"" . $mealIngredients[$i]->name . "\">" . $mealIngredients[$i]->name .  " " . $mealIngredients[$i]->amount . " " . $mealIngredients[$i]->unit . " " . $mealIngredients[$i]->nutrients[21]->amount . " Calories:" . " </label></div></br>";
+        }
+
+        $recipe .= $modifiedIngredients;
+
+        $recipe .= "</div><div class=\"modal-footer\"><button type=\"button\" class=\"btn btn-secondary\" data-dismiss=\"modal\">Close</button><div class=\"btn-block\"><a href=\"modifiedRecipeBackend.php?mealId=" .$mealId . "\" class=\"btn btn-danger\">submit</a></div></div></div></div></div>";
+        $recipe .= "<div class=\"container\"><h2>" . $mealTitle . "</h2><div class=\"w3-card-4\" style=\"width:70%\"><p>Cook time:" .  $mealReadyInMinutes . "</p></div><section><h4>Recipe</h4><h6><b>Ingredients</b></h6><p>" . $ingredients;
         $recipe .= "<p></section><section><h6><b>Directions</b></h6><p>" . $recipeSteps . "</p></section><section>";
         $recipe .= "<h4>Nutrition info</h4><table class=\"table table-borderless\"><tbody><tr><th scope=\"row\">Calories:</th><td>" . $calories;
         $recipe .= "</td></tr><tr><th scope=\"row\">Fat:</th><td>" . $fat;
