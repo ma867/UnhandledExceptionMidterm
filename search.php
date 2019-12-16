@@ -65,14 +65,22 @@ session_start();
         $("#button").click( function() {
 
             var s = $('#A').val() ;
+            var ingredients = $('#B').val() ;
+            var cleanIngredients = ingredients.replace(/ /g,'').split(",");
+            var i;
+            var stuff="%26excludeIngredients=";
+            for(i = 0; i < cleanIngredients.length; i++){
+
+                stuff += "," + cleanIngredients[i];
+            }
 
             $.ajax({
 
                     type: 		"GET"  ,
                     url: 		"searchBackEnd.php", //url of php script
-                    data: 		"query=" + s ,
+                    data: 		"query=" + s+ stuff +"",
 
-                    beforeSend: function(){ $("#B").html("waiting....") ;},
+                    beforeSend: function(){ $("#C").html("waiting....") ;},
 
                     error: 		function(xhr, status, error) {
                 alert( "Error Message:  \r\nNumeric code is: "  + xhr.status + " \r\nError is " + error); 	},
@@ -103,7 +111,7 @@ session_start();
                     if(i==8){cardContent += "</div></div></div></br>";}
 
                 }
-                $("#B").html(cardContent);
+                $("#C").html(cardContent);
             },
                 });
             });
@@ -136,15 +144,18 @@ session_start();
 
 <div class="container">
     <div class="row">
-        <div class="col-sm-8">
-        <input type=text id="A" placeholder="ie. Fettucine Alfredo" class="form-control"  style="display:inline-block;"><br><br>
+        <div class="col-sm-5">
+            <input type=text id="A" placeholder="ie. Fettucine Alfredo" class="form-control"  style="display:inline-block;"><br><br>
+        </div>
+        <div class="col-sm-5">
+            <input type=text id="B" placeholder="ie. Fettucine Alfredo" class="form-control"  style="display:inline-block;"><br><br>
         </div>
         <div class="col-sm-4">
     <input type=submit id = "button" style="display:inline-block;" class="btn btn-danger btn-search"></p>
         </div>
     </div>
   </div>
-<div id="B" ></div><br>
+<div id="C" ></div><br>
 
 <!--recommended Meals-->
 <section class="page-section bg-danger" id="about">
