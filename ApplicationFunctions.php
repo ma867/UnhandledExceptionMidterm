@@ -526,10 +526,17 @@ public static function returnRecipe($mealId)
         }
 
 
+        $modifiedIngredients = "";
+        for ($i = 0; $i <= sizeof($result->nutrition->ingredients) - 1; $i++) {
+            $modifiedIngredients .= "<div class=\"form-check\"><input class=\"form-check-input\" type=\"checkbox\" name=\"" . $result->nutrition->ingredients[$i]->name . "\" id=\"" . $result->nutrition->ingredients[$i]->name ;
+            $modifiedIngredients .= "\"><label class=\"form-check-label\" for=\"" . $result->nutrition->ingredients[$i]->name . "\">" . $result->nutrition->ingredients[$i]->name .  " " . $result->nutrition->ingredients[$i]->amount . " " . $result->nutrition->ingredients[$i]->unit . " " . $result->nutrition->ingredients[$i]->nutrients[21]->amount . " Calories:" . " </label></div></br>";
+        }
+
+
+
         $mealId = $mealId;
         $mealTitle = $result->title;
         $mealReadyInMinutes = $result->readyInMinutes . "mins.";
-        $mealIngredients = $result->nutrition->ingredients;
         $calories = $result->nutrition->nutrients[0]->amount . " " . $result->nutrition->nutrients[0]->unit;
         $fat = $result->nutrition->nutrients[1]->amount . " " . $result->nutrition->nutrients[1]->unit;
         $saturatedFat = $result->nutrition->nutrients[2]->amount . " " . $result->nutrition->nutrients[2]->unit;
@@ -548,7 +555,7 @@ public static function returnRecipe($mealId)
             $recipeSteps .= $recipeStepNumber . ". " . $recipeStep . "<br>";
 
         }
-        $recipe = BootstrapTags::createRecipePage($mealId, $mealTitle, $mealReadyInMinutes, $mealIngredients, $ingredients, $recipeSteps, $calories, $fat, $saturatedFat, $carbohydrates, $sugar, $cholesterol, $sodium, $protein, $fiber);
+        $recipe = BootstrapTags::createRecipePage($mealId, $mealTitle, $mealReadyInMinutes, $modifiedIngredients, $ingredients, $recipeSteps, $calories, $fat, $saturatedFat, $carbohydrates, $sugar, $cholesterol, $sodium, $protein, $fiber);
 
         return $recipe;
     }

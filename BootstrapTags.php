@@ -75,17 +75,11 @@ class BootstrapTags
         return "\" class=\"btn btn-danger\">Like</a></div><br>" ;
     }
 
-    public static function createRecipePage($mealId, $mealTitle, $mealReadyInMinutes, $mealIngredients, $ingredients, $recipeSteps, $calories, $fat, $saturatedFat, $carbohydrates, $sugar, $cholesterol, $sodium, $protein, $fiber){
+    public static function createRecipePage($mealId, $mealTitle, $mealReadyInMinutes, $modifiedIngredients, $ingredients, $recipeSteps, $calories, $fat, $saturatedFat, $carbohydrates, $sugar, $cholesterol, $sodium, $protein, $fiber){
 
         $recipe = "<div class=\"modal fade\" id=\"modifyMenu\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"modifyMenuLabel\" aria-hidden=\"true\"><div class=\"modal-dialog\" role=\"document\">
                     <div class=\"modal-content\"><div class=\"modal-header\"><h5 class=\"modal-title\" id=\"modifyMenuLabel\">Modify Ingredients</h5><button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\">
                      <span aria-hidden=\"true\">&times;</span></button></div><div class=\"modal-body\"><p>Check any ingredients to discard for calories recalculation:</p>";
-
-        $modifiedIngredients = "";
-        for ($i = 0; $i <= sizeof($mealIngredients) - 1; $i++) {
-            $modifiedIngredients .= "<div class=\"form-check\"><input class=\"form-check-input\" type=\"checkbox\" name=\"" . $mealIngredients[$i]->name . "\" id=\"" . $mealIngredients[$i]->name ;
-            $modifiedIngredients .= "\"><label class=\"form-check-label\" for=\"" . $mealIngredients[$i]->name . "\">" . $mealIngredients[$i]->name .  " " . $mealIngredients[$i]->amount . " " . $mealIngredients[$i]->unit . " " . $mealIngredients[$i]->nutrients[21]->amount . " Calories:" . " </label></div></br>";
-        }
 
         $recipe .= $modifiedIngredients;
 
