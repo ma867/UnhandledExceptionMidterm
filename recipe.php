@@ -35,13 +35,6 @@ session_start();
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
     <script type="text/javascript">
 
-
-
-
-
-
-
-
                 var ingredients=[];
 
                 function loopForm(form) {
@@ -54,10 +47,11 @@ session_start();
                     }
 
                     $.ajax({
-
-                            type: 		"POST"  ,
-                            url: 		"modifiedRecipeBackend.php", //url of php script
                             data: 		"ingredients=" + ingredients,
+                            url: 		"modifiedRecipeBackend.php",
+                            method: 	"POST";
+                             //url of php script
+
                         },
                     );
 
