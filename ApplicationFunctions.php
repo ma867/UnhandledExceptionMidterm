@@ -558,7 +558,8 @@ public static function returnIngredientInformation($username, $mealId, $discarde
                 $modmealid = $result["modmealid"];
             }
 
-            echo "got modifiedmealid";
+            echo "got modifiedmealid" . $modmealid;
+
 
             $result = CurlFunctions::curlGetIndividualMealInformation($mealId);
              $modifiedIngredientList = "";
@@ -583,7 +584,7 @@ public static function returnIngredientInformation($username, $mealId, $discarde
                     }
                 }
             }
-
+            echo "got modifiedmealid" . $modmealid . "</br>";
             $query = "select sum(ingredientcalories) as totalingredientcalories from discardedingredients where modmealid= '$modmealid'";
             $runQuery = mysqli_query($logindb, $query) or die(mysqli_error($logindb));
             while ($result = mysqli_fetch_array($runQuery, MYSQLI_ASSOC)) {
