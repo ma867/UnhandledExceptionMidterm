@@ -19,9 +19,10 @@ for ($x = 0; $x <= 1; $x++) {
 }
 
 
-/*
+
 $request = array();
 $request['type'] = "returnmodifiedrecipe";
+$request['username'] = $username;
 $request['mealId'] = $mealId;
 $request['ingredients'] = $ingredients;
 $response = $client->send_request($request);
@@ -40,5 +41,5 @@ else{
     header("Location: recipeModified.php");
     exit;
 }
-*/
+
 ?>
