@@ -531,17 +531,24 @@ public static function returnIngredientInformation($username, $mealId, $discarde
             while ($result = mysqli_fetch_array($runQuery, MYSQLI_ASSOC)) {
                 $userid = $result["userid"];
             }
+            echo "got userid";
             //cll api to get json result and store it
 
             $result = CurlFunctions::curlGetIndividualMealInformation($mealId);
-
+            echo "got curl result";
             //get total calories
             $totalcalories = $result->nutrition->nutrients[0]->amount;
             //get datetime
+            echo "got calories from curl";
             $datetime = date('Y-m-d H:i:s');
+
+            echo "got datetime";
             //insert to modified meals to create modmealid
             $query = "insert into modifiedmeals(modmealid, userid, dishnameid, totalcalories, datetime) values ('$userid', '$mealId' ,'$totalcalories', $datetime)";
             $runQuery = mysqli_query($logindb, $query) or die(mysqli_error($logindb));
+
+
+            echo "inserted into modifiedmeals";
 
 
             $query = "select * from modifiedmeal where userid = '$username'and datetime = '$datetime'";
@@ -549,6 +556,10 @@ public static function returnIngredientInformation($username, $mealId, $discarde
             while ($result = mysqli_fetch_array($runQuery, MYSQLI_ASSOC)) {
                 $modmealid = $result["modmealid"];
             }
+
+            echo "got modifiedmealid";
+
+
              $modifiedIngredientList = "";
 
             for ($i = 0; $i <= sizeof($result->nutrition->ingredients) - 1; $i++) {
