@@ -9,8 +9,17 @@ $client = new rabbitMQClient("testRabbitMQ.ini","testServer");
 
 $username = $_SESSION["username"];
 $mealId= $_SESSION["mealId"];
-$ingredients = $_POST["ingredients"];
+$ingredients = $_POST['data'];
 
+for ($x = 0; $x <= 1; $x++) {
+    for ($y = 0; $y <= 1; $y++){
+        echo $ingredients[$x][$y] ."\n";
+    }
+
+}
+
+
+/*
 $request = array();
 $request['type'] = "returnmodifiedrecipe";
 $request['mealId'] = $mealId;
@@ -31,4 +40,5 @@ else{
     header("Location: recipeModified.php");
     exit;
 }
+*/
 ?>

@@ -34,21 +34,26 @@ session_start();
     </style>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
     <script type="text/javascript">
-
-                var ingredients=[];
-
-                function loopForm(form) {
-
-                    for (var i = 0; i < form.elements.length; i++ ) {
-                            if (form.elements[i].checked == true) {
-                                ingredients.push([form.elements[i].value, form.elements[i].name]);
-                            }
-                    }
-
-
-                    console.log(ingredients);
+        function loopForm(form){
+            var stuff = [];
+            for (var i = 0; i < form.elements.length; i++ ) {
+                if (form.elements[i].checked == true) {
+                    stuff.push([form.elements[i].value, form.elements[i].name])
                 }
 
+            }
+
+            console.log(stuff);
+
+            var sendData = function() {
+                $.post('modifiedRecipeBackend.php', {
+                    data: stuff
+                }, function(response) {
+                    console.log(response);
+                });
+            }
+            sendData();
+        }
     </script>
 </head>
 
