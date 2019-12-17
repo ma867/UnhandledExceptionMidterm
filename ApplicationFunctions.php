@@ -545,7 +545,7 @@ public static function returnIngredientInformation($username, $mealId, $discarde
 
             echo "got datetime";
             //insert to modified meals to create modmealid
-            $query = "insert into modifiedmeals(userid, dishnameid, totalcalories, datetime) values ('$userid', '$mealId' ,'$totalcalories', $datetime)";
+            $query = "insert into modifiedmeals(userid, dishnameid, totalcalories, datetime) values ('$userid', '$mealId' ,'$totalcalories', '$datetime')";
             $runQuery = mysqli_query($logindb, $query) or die(mysqli_error($logindb));
 
 
