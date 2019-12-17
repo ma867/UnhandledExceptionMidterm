@@ -516,8 +516,83 @@ public static function getIndividualMealInformationAndDisplay($recommendedCalori
         }
 
     }
+public static function returnIngredientInformation($username, $mealId, $discardedingredients){
+        $logindb = new mysqli("192.168.2.4", "testUser", "12345", "testdb");
+        if (mysqli_connect_errno()) {
+            echo "failed to connect to MYSQL:" . mysqli_connect_error();
+            exit();
+        }
+        else {
 
-public static function returnRecipe($mealId)
+            mysqli_select_db($logindb, "testdb");
+            //get userid from users table using username
+            $query = "select * from users where username = '$username'";
+            $runQuery = mysqli_query($logindb, $query) or die(mysqli_error($logindb));
+            while ($result = mysqli_fetch_array($runQuery, MYSQLI_ASSOC)) {
+                $userid = $result["userid"];
+            }
+            //cll api to get json result and store it
+
+            $result = CurlFunctions::curlGetIndividualMealInformation($mealId);
+
+            //get total calories
+            $totalcalories = $result->nutrition->nutrients[0]->amount;
+            //get datetime
+            $datetime = date('Y-m-d H:i:s');
+            //insert to modified meals to create modmealid
+            $query = "insert into modifiedmeals(modmealid, userid, dishnameid, totalcalories, datetime) values ('$userid', '$mealId' ,'$totalcalories', $datetime)";
+            $runQuery = mysqli_query($logindb, $query) or die(mysqli_error($logindb));
+
+
+            $query = "select * from modifiedmeal where userid = '$username'and datetime = '$datetime'";
+            $runQuery = mysqli_query($logindb, $query) or die(mysqli_error($logindb));
+            while ($result = mysqli_fetch_array($runQuery, MYSQLI_ASSOC)) {
+                $modmealid = $result["modmealid"];
+            }
+             $modifiedIngredientList = "";
+
+            for ($i = 0; $i <= sizeof($result->nutrition->ingredients) - 1; $i++) {
+
+                $ingredientName = $result->nutrition->ingredients[$i]->name;
+                $ingredientAmount =  $result->nutrition->ingredients[$i]->amount . " " . $result->nutrition->ingredients[$i]->unit;
+                $ingredientCalories =  $result->nutrition->ingredients[$i]->nutrients[21]->amount;
+
+                if (! in_array($ingredientName, $discardedingredients)){
+
+                    $modifiedIngredientList .= "- " . $ingredientName . " " . $ingredientAmount . "<br>";
+                    continue;
+                }
+                else {
+                    for ($i = 0; $i <= sizeof($result->nutrition->ingredients) - 1; $i++) {
+                        $discardedIngredientCalories = $discardedingredients[$i][0];
+                        $discardedIngredientName = $discardedingredients[$i][1];
+                        $query = "insert into discardedingredients(modmealid, userid, ingredientname, ingredientcalories) values ('$mealId', '$userid', '$discardedIngredientName', '$discardedIngredientCalories')";
+                        $runQuery = mysqli_query($logindb, $query) or die(mysqli_error($logindb));
+                    }
+                }
+            }
+
+            $query = "select sum(ingredientcalories) as totalingredientcalories from discardedingredients where modmealid= '$modmealid'";
+            $runQuery = mysqli_query($logindb, $query) or die(mysqli_error($logindb));
+            while ($result = mysqli_fetch_array($runQuery, MYSQLI_ASSOC)) {
+                $totalingredientcalories = $result["totalingredientcalories"];
+            }
+
+            $newCaloricAmount = $totalcalories - $totalingredientcalories;
+
+            $query = "update modifiedmeals set ingredientcalories = '$newCaloricAmount' where modmealid = '$modmealid'";
+            $runQuery = mysqli_query($logindb, $query) or die(mysqli_error($logindb));
+
+            $modifiedCaloriesAndIngredients = array();
+            $modifiedCaloriesAndIngredients['calories'] = $newCaloricAmount;
+            $modifiedCaloriesAndIngredients['ingredients'] = $modifiedIngredientList;
+
+            $newRecipe = self::returnModifiedRecipe($mealId, $modifiedCaloriesAndIngredients);
+            return $newRecipe;
+
+        }
+}
+public static function returnRegularRecipe($mealId)
     {
         $result =  CurlFunctions::curlGetIndividualMealInformation($mealId);
         $ingredients = "";
@@ -525,12 +600,15 @@ public static function returnRecipe($mealId)
             $ingredients .= (($i + 1) . ". " . $result->nutrition->ingredients[$i]->name) . " " . $result->nutrition->ingredients[$i]->amount . " " . $result->nutrition->ingredients[$i]->unit . "<br>";
         }
 
-
-        $modifiedIngredients = "";
+        $modifiedIngredients = "<form name=\"thisForm\">";
         for ($i = 0; $i <= sizeof($result->nutrition->ingredients) - 1; $i++) {
-            $modifiedIngredients .= "<div class=\"form-check\"><input class=\"form-check-input\" type=\"checkbox\" name=\"" . $result->nutrition->ingredients[$i]->name . "\" id=\"" . $result->nutrition->ingredients[$i]->name ;
-            $modifiedIngredients .= "\"><label class=\"form-check-label\" for=\"" . $result->nutrition->ingredients[$i]->name . "\">" . $result->nutrition->ingredients[$i]->name .  " " . $result->nutrition->ingredients[$i]->amount . " " . $result->nutrition->ingredients[$i]->unit . " " . $result->nutrition->ingredients[$i]->nutrients[21]->amount . " Calories:" . " </label></div></br>";
+          //  $modifiedIngredients .= "<div class=\"form-check\"><input class=\"form-check-input\" type=\"checkbox\" name=\"" . $result->nutrition->ingredients[$i]->name . "\" id=\"" . $result->nutrition->ingredients[$i]->name ;
+          //  $modifiedIngredients .= "\"><label class=\"form-check-label\" for=\"" . $result->nutrition->ingredients[$i]->name . "\">" . $result->nutrition->ingredients[$i]->name .  " " . $result->nutrition->ingredients[$i]->amount . " " . $result->nutrition->ingredients[$i]->unit . " | " . " Calories:" . $result->nutrition->ingredients[$i]->nutrients[21]->amount . " </label></div></br>";
+            $modifiedIngredients .=  "<input type=\"checkbox\" name=\"" . $result->nutrition->ingredients[$i]->name . "\" value=\"" . $result->nutrition->ingredients[$i]->nutrients[21]->amount . "\">";
+            $modifiedIngredients .= $result->nutrition->ingredients[$i]->name .  " " . $result->nutrition->ingredients[$i]->amount . " " . $result->nutrition->ingredients[$i]->unit . " | " . " Calories:" . $result->nutrition->ingredients[$i]->nutrients[21]->amount;
+
         }
+        $modifiedIngredients .= "<button type=\"button\" class=\"btn btn-secondary\" data-dismiss=\"modal\">Close</button><input type=\"button\" value=\"Submit\" onclick=\"loopForm(document.thisForm);\" class=\"btn btn-danger\"></form>";
 
 
 
@@ -556,6 +634,36 @@ public static function returnRecipe($mealId)
 
         }
         $recipe = BootstrapTags::createRecipePage($mealId, $mealTitle, $mealReadyInMinutes, $modifiedIngredients, $ingredients, $recipeSteps, $calories, $fat, $saturatedFat, $carbohydrates, $sugar, $cholesterol, $sodium, $protein, $fiber);
+
+        return $recipe;
+    }
+
+    public static function returnModifiedRecipe($mealId, $modifiedCaloriesAndIngredients)
+    {
+        $result =  CurlFunctions::curlGetIndividualMealInformation($mealId);
+        $ingredients = $modifiedCaloriesAndIngredients['ingredients'];
+
+        $mealTitle = $result->title;
+        $mealReadyInMinutes = $result->readyInMinutes . "mins.";
+        $calories = $modifiedCaloriesAndIngredients['calories'] . " " . $result->nutrition->nutrients[0]->unit;
+        $fat = $result->nutrition->nutrients[1]->amount . " " . $result->nutrition->nutrients[1]->unit;
+        $saturatedFat = $result->nutrition->nutrients[2]->amount . " " . $result->nutrition->nutrients[2]->unit;
+        $carbohydrates =  $result->nutrition->nutrients[3]->amount . " " . $result->nutrition->nutrients[3]->unit;
+        $sugar = $result->nutrition->nutrients[4]->amount . " " . $result->nutrition->nutrients[4]->unit;
+        $cholesterol = $result->nutrition->nutrients[5]->amount . " " . $result->nutrition->nutrients[5]->unit;
+        $sodium = $result->nutrition->nutrients[6]->amount . " " . $result->nutrition->nutrients[6]->unit;
+        $protein = $result->nutrition->nutrients[8]->amount . " " . $result->nutrition->nutrients[8]->unit;
+        $fiber = $result->nutrition->nutrients[10]->amount . " " . $result->nutrition->nutrients[10]->unit;
+
+
+        $recipeSteps = "";
+        for ($i = 0; $i <= sizeof($result->analyzedInstructions[0]->steps) - 1; $i++) {
+            $recipeStepNumber = $result->analyzedInstructions[0]->steps[$i]->number;
+            $recipeStep = $result->analyzedInstructions[0]->steps[$i]->step;
+            $recipeSteps .= $recipeStepNumber . ". " . $recipeStep . "<br>";
+
+        }
+        $recipe = BootstrapTags::createModifiedRecipePage($mealTitle, $mealReadyInMinutes, $ingredients, $recipeSteps, $calories, $fat, $saturatedFat, $carbohydrates, $sugar, $cholesterol, $sodium, $protein, $fiber);
 
         return $recipe;
     }

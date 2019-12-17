@@ -6,13 +6,15 @@ require_once('rabbitMQLib.inc');
 session_start();
 $client = new rabbitMQClient("testRabbitMQ.ini","testServer");
 
-$username = $_SESSION["username"];
-$mealId = $_GET["mealId"];
 
+$username = $_SESSION["username"];
+$mealId= $_SESSION["mealId"];
+$ingredients = $_POST["ingredients"];
 
 $request = array();
 $request['type'] = "returnmodifiedrecipe";
 $request['mealId'] = $mealId;
+$request['ingredients'] = $ingredients;
 $response = $client->send_request($request);
 
 

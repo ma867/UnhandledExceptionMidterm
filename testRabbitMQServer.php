@@ -27,7 +27,9 @@ function requestProcessor($request)
         case "insertlike":
             return ApplicationFunctions::addMealToLikesTable($request['username'], $request['mealId']);
         case "returnrecipe":
-            return ApplicationFunctions::returnRecipe($request['mealId']);
+            return ApplicationFunctions::returnRegularRecipe($request['mealId']);
+        case "returnmodifiedrecipe":
+            return ApplicationFunctions::returnIngredientInformation($request['username'], $request['mealId'], $request['ingredients']);
     }
     return array("returnCode" => '0', 'message'=>"Server received request and processed");
 }

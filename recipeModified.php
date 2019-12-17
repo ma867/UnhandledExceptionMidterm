@@ -20,9 +20,9 @@ session_start();
 
 
 
-@media (min-width: 768px) {
-    .bd-placeholder-img-lg {
-        font-size: 3.5rem;
+        @media (min-width: 768px) {
+            .bd-placeholder-img-lg {
+                font-size: 3.5rem;
             }
         }
 
@@ -34,44 +34,6 @@ session_start();
     </style>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
     <script type="text/javascript">
-
-
-
-        $(document).ready( function(){
-
-            $("#button").click( function() {
-
-
-
-                var ingredients=[];
-
-                function loopForm(form) {
-
-                    for (var i = 0; i < form.elements.length; i++ ) {
-                            if (form.elements[i].checked == true) {
-                                ingredients.push([form.elements[i].value, form.elements[i].name]);
-                            }
-
-                    }
-                    console.log(ingredients);
-                }
-
-
-                $.ajax({
-
-                    type: 		"POST"  ,
-                    url: 		"modifiedRecipeBackend.php", //url of php script
-                    data: 		"ingredients=" + ingredients,
-
-                    beforeSend: function(){ $("#C").html("waiting....") ;},
-
-                    error: 		function(xhr, status, error) {
-                        alert( "Error Message:  \r\nNumeric code is: "  + xhr.status + " \r\nError is " + error); 	},
-
-                    },
-                });
-            });
-        });
 
     </script>
 </head>
@@ -100,7 +62,7 @@ session_start();
 </nav><br>
 <?php
 include('ApplicationFunctions.php');
- $recipe = $_SESSION["recipe"];
+$recipe = $_SESSION["recipe"];
 echo $recipe;
 ?>
 <footer class="container-fluid py-5" style="background-color: white;">

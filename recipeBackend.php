@@ -25,6 +25,7 @@ else{
 
 //echo "request received";
     $_SESSION['recipe'] = $response;
+    $_SESSION['mealId'] = $mealId;
     header("Location: recipe.php");
     exit;
 }

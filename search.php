@@ -21,10 +21,6 @@ session_start();
 
     <style>
 
-    #about{
-        color:red;
-    }
-
     @media (min-width: 768px) {
         .bd-placeholder-img-lg {
             font-size: 3.5rem;
@@ -166,6 +162,8 @@ session_start();
                 <h2 class="text-white mt-4">Recommended Meals</h2>
                 <hr class="divider light my-4">
                 <p class="text-white-50 mb-4">Below are some recommended meals for your target calories. </p>
+            </div>
+            <div class="col-lg-12">
                 <!--Cards-->
                 <?php
                 include('ApplicationFunctions.php');
