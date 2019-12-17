@@ -560,7 +560,7 @@ public static function returnIngredientInformation($username, $mealId, $discarde
 
             echo "got modifiedmealid";
 
-
+            $result = CurlFunctions::curlGetIndividualMealInformation($mealId);
              $modifiedIngredientList = "";
 
             for ($i = 0; $i <= sizeof($result->nutrition->ingredients) - 1; $i++) {
