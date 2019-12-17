@@ -617,7 +617,7 @@ public static function returnRegularRecipe($mealId)
         for ($i = 0; $i <= sizeof($result->nutrition->ingredients) - 1; $i++) {
 
             for ($j = 0; $j < sizeof($result->nutrition->ingredients[$j]->nutrients); $j++) {
-                if ($result->nutrition->ingredients[$i]->nutrients[$j]->title == "Calories") {
+                if ($result->nutrition->ingredients[$i]->nutrients[$j]->name == "Calories") {
                     $modifiedIngredientCalories = $result->nutrition->ingredients[$i]->nutrients[$j]->amount;
                     break;
                 }
