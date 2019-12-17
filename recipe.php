@@ -47,13 +47,12 @@ session_start();
                     }
 
                     $.ajax({
-                            data: 		"ingredients=" + ingredients,
-                            url: 		"modifiedRecipeBackend.php",
-                            method: 	"POST";
-                             //url of php script
+                        data: "ingredients=" + ingredients,
+                        url: "modifiedRecipeBackend.php",
+                        method: "POST";
+                    //url of php script
 
-                        },
-                    );
+                    });
 
                     console.log(ingredients);
                 }
