@@ -43,16 +43,8 @@ session_start();
                             if (form.elements[i].checked == true) {
                                 ingredients.push([form.elements[i].value, form.elements[i].name]);
                             }
-
                     }
 
-                    $.ajax({
-                        data: "ingredients=" + ingredients,
-                        url: "modifiedRecipeBackend.php",
-                        method: "POST";
-                    //url of php script
-
-                    });
 
                     console.log(ingredients);
                 }
