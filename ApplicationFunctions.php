@@ -552,7 +552,7 @@ public static function returnIngredientInformation($username, $mealId, $discarde
             echo "inserted into modifiedmeals query is" . $query . "\n";
 
 
-            $query = "select * from modifiedmeal where userid = '$username'and datetime = '$datetime'";
+            $query = "select * from modifiedmeals where userid = '$username'and datetime = '$datetime'";
             $runQuery = mysqli_query($logindb, $query) or die(mysqli_error($logindb));
             while ($result = mysqli_fetch_array($runQuery, MYSQLI_ASSOC)) {
                 $modmealid = $result["modmealid"];
