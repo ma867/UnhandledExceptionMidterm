@@ -568,8 +568,10 @@ public static function returnIngredientInformation($username, $mealId, $discarde
 
                 $ingredientName = $result->nutrition->ingredients[$i]->name;
                 $ingredientAmount =  $result->nutrition->ingredients[$i]->amount . " " . $result->nutrition->ingredients[$i]->unit;
-                $ingredientCalories =  $result->nutrition->ingredients[$i]->nutrients[21]->amount;
-
+                for($i = 0; $i < 22; $i++) {
+                    $ingredientCalories = $result->nutrition->ingredients[$i]->nutrients[$i]->amount;
+                    echo $ingredientCalories;
+                }
                 if (! in_array($ingredientName, $discardedingredients)){
 
                     $modifiedIngredientList .= "- " . $ingredientName . " " . $ingredientAmount . "<br>";
