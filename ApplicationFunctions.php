@@ -605,7 +605,7 @@ public static function returnRegularRecipe($mealId)
           //  $modifiedIngredients .= "<div class=\"form-check\"><input class=\"form-check-input\" type=\"checkbox\" name=\"" . $result->nutrition->ingredients[$i]->name . "\" id=\"" . $result->nutrition->ingredients[$i]->name ;
           //  $modifiedIngredients .= "\"><label class=\"form-check-label\" for=\"" . $result->nutrition->ingredients[$i]->name . "\">" . $result->nutrition->ingredients[$i]->name .  " " . $result->nutrition->ingredients[$i]->amount . " " . $result->nutrition->ingredients[$i]->unit . " | " . " Calories:" . $result->nutrition->ingredients[$i]->nutrients[21]->amount . " </label></div></br>";
             $modifiedIngredients .=  "<input type=\"checkbox\" name=\"" . $result->nutrition->ingredients[$i]->name . "\" value=\"" . $result->nutrition->ingredients[$i]->nutrients[21]->amount . "\">";
-            $modifiedIngredients .= $result->nutrition->ingredients[$i]->name .  " " . $result->nutrition->ingredients[$i]->amount . " " . $result->nutrition->ingredients[$i]->unit . " | " . " Calories:" . $result->nutrition->ingredients[$i]->nutrients[21]->amount;
+            $modifiedIngredients .= $result->nutrition->ingredients[$i]->name .  " " . $result->nutrition->ingredients[$i]->amount . " " . $result->nutrition->ingredients[$i]->unit . " | " . " Calories:" . $result->nutrition->ingredients[$i]->nutrients[21]->amount . "</br>";
 
         }
         $modifiedIngredients .= "<button type=\"button\" class=\"btn btn-secondary\" data-dismiss=\"modal\">Close</button><input type=\"button\" value=\"Submit\" onclick=\"loopForm(document.thisForm);\" class=\"btn btn-danger\"></form>";

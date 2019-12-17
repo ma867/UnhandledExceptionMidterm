@@ -37,9 +37,8 @@ session_start();
 
 
 
-        $(document).ready( function(){
 
-            $("#button").click( function() {
+
 
 
 
@@ -53,25 +52,17 @@ session_start();
                             }
 
                     }
+
+                    $.ajax({
+
+                            type: 		"POST"  ,
+                            url: 		"modifiedRecipeBackend.php", //url of php script
+                            data: 		"ingredients=" + ingredients,
+                        },
+                    );
+
                     console.log(ingredients);
                 }
-
-
-                $.ajax({
-
-                    type: 		"POST"  ,
-                    url: 		"modifiedRecipeBackend.php", //url of php script
-                    data: 		"ingredients=" + ingredients,
-
-                    beforeSend: function(){ $("#C").html("waiting....") ;},
-
-                    error: 		function(xhr, status, error) {
-                        alert( "Error Message:  \r\nNumeric code is: "  + xhr.status + " \r\nError is " + error); 	},
-
-                    },
-                });
-            });
-        });
 
     </script>
 </head>
