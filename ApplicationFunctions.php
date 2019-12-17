@@ -568,15 +568,12 @@ public static function returnIngredientInformation($username, $mealId, $discarde
 
                 $ingredientName = $result->nutrition->ingredients[$i]->name;
                 $ingredientAmount =  $result->nutrition->ingredients[$i]->amount . " " . $result->nutrition->ingredients[$i]->unit;
-                for($i = 0; $i < 22; $i++) {
-                    $ingredientCalories = $result->nutrition->ingredients[$i]->nutrients[$i]->amount;
-                    echo $ingredientCalories;
-                }
-                if (! in_array($ingredientName, $discardedingredients)){
+
+                 if (! in_array($ingredientName, $discardedingredients)){
 
                     $modifiedIngredientList .= "- " . $ingredientName . " " . $ingredientAmount . "<br>";
-                    continue;
-                }
+
+                 }
                 else {
                     for ($i = 0; $i <= sizeof($result->nutrition->ingredients) - 1; $i++) {
                         $discardedIngredientCalories = $discardedingredients[$i][0];
@@ -608,8 +605,9 @@ public static function returnIngredientInformation($username, $mealId, $discarde
         }
 }
 public static function returnRegularRecipe($mealId)
-    {
-        $result =  CurlFunctions::curlGetIndividualMealInformation($mealId);
+{
+
+        $result = CurlFunctions::curlGetIndividualMealInformation($mealId);
         $ingredients = "";
         for ($i = 0; $i <= sizeof($result->nutrition->ingredients) - 1; $i++) {
             $ingredients .= (($i + 1) . ". " . $result->nutrition->ingredients[$i]->name) . " " . $result->nutrition->ingredients[$i]->amount . " " . $result->nutrition->ingredients[$i]->unit . "<br>";
@@ -617,14 +615,21 @@ public static function returnRegularRecipe($mealId)
 
         $modifiedIngredients = "<form name=\"thisForm\">";
         for ($i = 0; $i <= sizeof($result->nutrition->ingredients) - 1; $i++) {
-          //  $modifiedIngredients .= "<div class=\"form-check\"><input class=\"form-check-input\" type=\"checkbox\" name=\"" . $result->nutrition->ingredients[$i]->name . "\" id=\"" . $result->nutrition->ingredients[$i]->name ;
-          //  $modifiedIngredients .= "\"><label class=\"form-check-label\" for=\"" . $result->nutrition->ingredients[$i]->name . "\">" . $result->nutrition->ingredients[$i]->name .  " " . $result->nutrition->ingredients[$i]->amount . " " . $result->nutrition->ingredients[$i]->unit . " | " . " Calories:" . $result->nutrition->ingredients[$i]->nutrients[21]->amount . " </label></div></br>";
-            $modifiedIngredients .=  "<input type=\"checkbox\" name=\"" . $result->nutrition->ingredients[$i]->name . "\" value=\"" . $result->nutrition->ingredients[$i]->nutrients[21]->amount . "\">";
-            $modifiedIngredients .= $result->nutrition->ingredients[$i]->name .  " " . $result->nutrition->ingredients[$i]->amount . " " . $result->nutrition->ingredients[$i]->unit . " | " . " Calories:" . $result->nutrition->ingredients[$i]->nutrients[21]->amount . "</br>";
 
+            for ($j = 0; $j < sizeof($result->nutrition->ingredients[$j]->nutrients); $j++) {
+                if ($result->nutrition->ingredients[$i]->nutrients[$j]->title == "Calories") {
+                    $modifiedIngredientCalories = $result->nutrition->ingredients[$i]->nutrients[$j]->amount;
+                    break;
+                }
+            }
+
+            //  $modifiedIngredients .= "<div class=\"form-check\"><input class=\"form-check-input\" type=\"checkbox\" name=\"" . $result->nutrition->ingredients[$i]->name . "\" id=\"" . $result->nutrition->ingredients[$i]->name ;
+            //  $modifiedIngredients .= "\"><label class=\"form-check-label\" for=\"" . $result->nutrition->ingredients[$i]->name . "\">" . $result->nutrition->ingredients[$i]->name .  " " . $result->nutrition->ingredients[$i]->amount . " " . $result->nutrition->ingredients[$i]->unit . " | " . " Calories:" . $result->nutrition->ingredients[$i]->nutrients[21]->amount . " </label></div></br>";
+            $modifiedIngredients .= "<input type=\"checkbox\" name=\"" . $result->nutrition->ingredients[$i]->name . "\" value=\"" . $result->nutrition->ingredients[$i]->nutrients[21]->amount . "\">";
+            $modifiedIngredients .= $result->nutrition->ingredients[$i]->name . " " . $result->nutrition->ingredients[$i]->amount . " " . $result->nutrition->ingredients[$i]->unit . " | " . " Calories:" . $modifiedIngredientCalories . "</br>";
         }
-        $modifiedIngredients .= "<button type=\"button\" class=\"btn btn-secondary\" data-dismiss=\"modal\">Close</button><input type=\"button\" value=\"Submit\" onclick=\"loopForm(document.thisForm);\" class=\"btn btn-danger\"></form>";
 
+        $modifiedIngredients .= "<button type=\"button\" class=\"btn btn-secondary\" data-dismiss=\"modal\">Close</button><input type=\"button\" value=\"Submit\" onclick=\"loopForm(document.thisForm);\" class=\"btn btn-danger\"></form>";
 
 
         $mealId = $mealId;
@@ -633,7 +638,7 @@ public static function returnRegularRecipe($mealId)
         $calories = $result->nutrition->nutrients[0]->amount . " " . $result->nutrition->nutrients[0]->unit;
         $fat = $result->nutrition->nutrients[1]->amount . " " . $result->nutrition->nutrients[1]->unit;
         $saturatedFat = $result->nutrition->nutrients[2]->amount . " " . $result->nutrition->nutrients[2]->unit;
-        $carbohydrates =  $result->nutrition->nutrients[3]->amount . " " . $result->nutrition->nutrients[3]->unit;
+        $carbohydrates = $result->nutrition->nutrients[3]->amount . " " . $result->nutrition->nutrients[3]->unit;
         $sugar = $result->nutrition->nutrients[4]->amount . " " . $result->nutrition->nutrients[4]->unit;
         $cholesterol = $result->nutrition->nutrients[5]->amount . " " . $result->nutrition->nutrients[5]->unit;
         $sodium = $result->nutrition->nutrients[6]->amount . " " . $result->nutrition->nutrients[6]->unit;
@@ -651,6 +656,7 @@ public static function returnRegularRecipe($mealId)
         $recipe = BootstrapTags::createRecipePage($mealId, $mealTitle, $mealReadyInMinutes, $modifiedIngredients, $ingredients, $recipeSteps, $calories, $fat, $saturatedFat, $carbohydrates, $sugar, $cholesterol, $sodium, $protein, $fiber);
 
         return $recipe;
+
     }
 
     public static function returnModifiedRecipe($mealId, $modifiedCaloriesAndIngredients)
@@ -682,6 +688,7 @@ public static function returnRegularRecipe($mealId)
 
         return $recipe;
     }
+
 }
 
 ?>
