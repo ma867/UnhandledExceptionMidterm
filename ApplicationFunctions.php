@@ -653,7 +653,7 @@ public static function returnIngredientInformation($username, $mealId, $included
                         $ingredientName = $result->nutrition->ingredients[$j]->name;
                         $ingredientAmount = $result->nutrition->ingredients[$j]->amount . " " . $result->nutrition->ingredients[$j]->unit;
                         $modifiedIngredientList .= "- " . $ingredientName . " " . $ingredientAmount . "<br>";
-                        echo $modifiedIngredientList ."\n";
+                        echo "This is the ".$modifiedIngredientList ."\n";
                     }
                 }
 
