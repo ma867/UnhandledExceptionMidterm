@@ -38,7 +38,7 @@ session_start();
             var stuff =[];
             var stuff2=[];
             var stuff3=[];
-            for (var i = 0; i < form.elements.length; i++ ) {
+            for (var i = 0; i < form.elements.length-1; i++ ) {
                 if (form.elements[i].checked == true) {
                     stuff.push([form.elements[i].value, form.elements[i].name])
                 }else if (form.elements[i].checked == false) {
