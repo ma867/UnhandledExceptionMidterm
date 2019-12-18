@@ -659,7 +659,7 @@ public static function returnIngredientInformation($username, $mealId, $included
                         continue;
                     }
                     else{
-                       echo $ingredientName ."\n" ;
+                        $modifiedIngredientList[]=$ingredientName."-".$ingredientAmount;
                        break;
                     }
                 }
