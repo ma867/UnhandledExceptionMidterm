@@ -644,10 +644,10 @@ public static function returnIngredientInformation($username, $mealId, $included
             $result = CurlFunctions::curlGetIndividualMealInformation($mealId);
 
            // echo $result ."\n";
-            $modifiedIngredientList = "";
+            $modifiedIngredientList = array();
             print_r($includedingredients);
             print_r($discardedingredients);
-
+            $il = array();
             for ($i = 0; $i < sizeof($includedingredients); $i++) {
 
                // echo $includedingredients[$i][1] ." \n";
@@ -655,14 +655,13 @@ public static function returnIngredientInformation($username, $mealId, $included
                     $ingredientName = $result->nutrition->ingredients[$j]->name;
                     $ingredientAmount = $result->nutrition->ingredients[$j]->amount . " " . $result->nutrition->ingredients[$j]->unit;
 
-                    /*if(strpos($modifiedIngredientList, $ingredientName) < 0 ){
-                        $modifiedIngredientList .= "-" . $ingredientName . " " . $ingredientAmount . "<br>";
-                    }*/
+                    if(in_array($ingredientName ."-".$ingredientAmount, $modifiedIngredientList) !== true){
+                        $modifiedIngredientList[]= $ingredientName ."-".$ingredientAmount;                    }
                 }
 
             }
 
-            echo $modifiedIngredientList ."\n";
+            print_r($modifiedIngredientList) ."\n";
 
             /*for ($i = 0; $i < sizeof($discardedingredients); $i++) {
 
