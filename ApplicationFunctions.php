@@ -655,9 +655,9 @@ public static function returnIngredientInformation($username, $mealId, $included
                     $ingredientName = $result->nutrition->ingredients[$j]->name;
                     $ingredientAmount = $result->nutrition->ingredients[$j]->amount . " " . $result->nutrition->ingredients[$j]->unit;
 
-                    if(strpos($modifiedIngredientList, $ingredientName) < 0 ){
+                    /*if(strpos($modifiedIngredientList, $ingredientName) < 0 ){
                         $modifiedIngredientList .= "-" . $ingredientName . " " . $ingredientAmount . "<br>";
-                    }
+                    }*/
                 }
 
             }
