@@ -644,17 +644,21 @@ public static function returnIngredientInformation($username, $mealId, $included
             $result = CurlFunctions::curlGetIndividualMealInformation($mealId);
             $modifiedIngredientList = "";
 
-            for ($j = 0; $j < sizeof($includedingredients); $j++) {
-                for ($i = 0; $i < sizeof($result->nutrition->ingredients); $i++) {
-                    if ($includedingredients[$j] == $result->nutrition->ingredients[$i]->name) {
+            for ($i = 0; $i < sizeof($includedingredients); $i++) {
+                for ($j = 0; $j < sizeof($result->nutrition->ingredients); $j++) {
+                    if ($includedingredients[$i] == $result->nutrition->ingredients[$j]->name) {
 
-                        $ingredientName = $result->nutrition->ingredients[$i]->name;
-                        $ingredientAmount = $result->nutrition->ingredients[$i]->amount . " " . $result->nutrition->ingredients[$i]->unit;
+                        $ingredientName = $result->nutrition->ingredients[$j]->name;
+                        $ingredientAmount = $result->nutrition->ingredients[$j]->amount . " " . $result->nutrition->ingredients[$j]->unit;
                         $modifiedIngredientList .= "- " . $ingredientName . " " . $ingredientAmount . "<br>";
+                        echo $modifiedIngredientList ."\n";
                     }
+                }
+
             }
                 echo "\n new modified ingredient list: " . $modifiedIngredientList;
-            for ($i = 0; $i <= sizeof($discardedingredients) - 1; $i++) {
+
+            for ($i = 0; $i <sizeof($discardedingredients); $i++) {
                 $discardedIngredientCalories = $discardedingredients[$i][0];
                 $discardedIngredientName = $discardedingredients[$i][1];
                 $query = "insert into discardedingredients(modmealid, userid, ingredientname, ingredientcalories) values ('$modmealid', '$userid', '$discardedIngredientName', '$discardedIngredientCalories')";
@@ -697,7 +701,7 @@ public static function returnIngredientInformation($username, $mealId, $included
 
 
     }
-}
+
 public static function returnRegularRecipe($mealId)
 {
 
