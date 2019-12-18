@@ -53,7 +53,7 @@ session_start();
                 $.post('modifiedRecipeBackend.php', {
                     data: stuff3
                 }, function(response) {
-                    window.location.href = 'recipeModified.php?modifiedrecipe=' + response;
+                    window.location.href = 'recipeModified.php?modifiedrecipe=' + encodeURIComponent(response);
                 });
             }
             sendData();
