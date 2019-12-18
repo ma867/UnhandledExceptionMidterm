@@ -655,8 +655,13 @@ public static function returnIngredientInformation($username, $mealId, $included
                     $ingredientName = $result->nutrition->ingredients[$j]->name;
                     $ingredientAmount = $result->nutrition->ingredients[$j]->amount . " " . $result->nutrition->ingredients[$j]->unit;
 
-                    if(in_array($ingredientName ."-".$ingredientAmount, $modifiedIngredientList) !== true){
-                        $modifiedIngredientList[]= $ingredientName ."-".$ingredientAmount;                    }
+                    if($ingredientName != $includedingredients[$i][1]){
+                        continue;
+                    }
+                    else{
+                       echo $ingredientName ."\n" ;
+                       break;
+                    }
                 }
 
             }
