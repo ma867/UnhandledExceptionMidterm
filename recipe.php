@@ -54,7 +54,8 @@ session_start();
                     data: stuff3
                 }, function(response) {
                     console.log(response.toString());
-                    //window.location.href = 'recipeModified.php';
+                    window.location.href = 'recipeModified.php';
+                   // window.location.href = 'recipeModified.php?modifiedrecipe=' + response.toString();
                 });
             }
             sendData();
