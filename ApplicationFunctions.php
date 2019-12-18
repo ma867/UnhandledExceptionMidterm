@@ -653,6 +653,7 @@ public static function returnIngredientInformation($username, $mealId, $included
                         $modifiedIngredientList .= "- " . $ingredientName . " " . $ingredientAmount . "<br>";
                     }
             }
+                echo "\n new modified ingredient list: " . $modifiedIngredientList;
             for ($i = 0; $i <= sizeof($discardedingredients) - 1; $i++) {
                 $discardedIngredientCalories = $discardedingredients[$i][0];
                 $discardedIngredientName = $discardedingredients[$i][1];
@@ -672,6 +673,8 @@ public static function returnIngredientInformation($username, $mealId, $included
 
                 echo $totalcalories . "total & ing " . $totalingredientcalories;
 
+
+               echo "new cal amount" .  $newCaloricAmount;
                 $query = "update modifiedmeals set totalcalories = '$newCaloricAmount' where modmealid = '$modmealid'";
                 $runQuery = mysqli_query($logindb, $query) or die(mysqli_error($logindb));
 
