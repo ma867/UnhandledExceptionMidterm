@@ -646,20 +646,11 @@ public static function returnIngredientInformation($username, $mealId, $included
            // echo $result ."\n";
             $modifiedIngredientList = "";
 
-            for ($i = 0; $i < sizeof($includedingredients); $i++) {
-                for ($j = 0; $j < sizeof($result->nutrition->ingredients); $j++) {
-                    if ($includedingredients[$i] == $result->nutrition->ingredients[$j]->name) {
-
-                        $ingredientName = $result->nutrition->ingredients[$j]->name;
-                        $ingredientAmount = $result->nutrition->ingredients[$j]->amount . " " . $result->nutrition->ingredients[$j]->unit;
-                        $modifiedIngredientList .= "- " . $ingredientName . " " . $ingredientAmount . "<br>";
-                        echo "This is the ".$modifiedIngredientList ."\n";
-                    }
-                }
-
+            for($i = 0; $i < sizeof($includedingredients); $i++){
+                echo $includedingredients[$i] ." \n";
             }
 
-            echo $modifiedIngredientList ."\n";
+            //echo $modifiedIngredientList ."\n";
               //  return $newRecipe;
             return 1;
 
