@@ -701,7 +701,7 @@ public static function returnRegularRecipe($mealId)
         $modifiedIngredients = "<form name=\"thisForm\">";
         for ($i = 0; $i <= sizeof($result->nutrition->ingredients) - 1; $i++) {
 
-            for ($j = 0; $j < sizeof($result->nutrition->ingredients[$j]->nutrients); $j++) {
+            for ($j = 0; $j < sizeof($result->nutrition->ingredients[$i]->nutrients); $j++) {
                 if ($result->nutrition->ingredients[$i]->nutrients[$j]->name == "Calories") {
                     $modifiedIngredientCalories = $result->nutrition->ingredients[$i]->nutrients[$j]->amount;
                     break;
@@ -710,7 +710,7 @@ public static function returnRegularRecipe($mealId)
 
             //  $modifiedIngredients .= "<div class=\"form-check\"><input class=\"form-check-input\" type=\"checkbox\" name=\"" . $result->nutrition->ingredients[$i]->name . "\" id=\"" . $result->nutrition->ingredients[$i]->name ;
             //  $modifiedIngredients .= "\"><label class=\"form-check-label\" for=\"" . $result->nutrition->ingredients[$i]->name . "\">" . $result->nutrition->ingredients[$i]->name .  " " . $result->nutrition->ingredients[$i]->amount . " " . $result->nutrition->ingredients[$i]->unit . " | " . " Calories:" . $result->nutrition->ingredients[$i]->nutrients[21]->amount . " </label></div></br>";
-            $modifiedIngredients .= "<input type=\"checkbox\" name=\"" . $result->nutrition->ingredients[$i]->name . "\" value=\"" . $result->nutrition->ingredients[$i]->nutrients[21]->amount . "\">";
+            $modifiedIngredients .= "<input type=\"checkbox\" name=\"" . $result->nutrition->ingredients[$i]->name . "\" value=\"" . $modifiedIngredientCalories . "\">";
             $modifiedIngredients .= $result->nutrition->ingredients[$i]->name . " " . $result->nutrition->ingredients[$i]->amount . " " . $result->nutrition->ingredients[$i]->unit . " | " . " Calories:" . $modifiedIngredientCalories . "</br>";
         }
 

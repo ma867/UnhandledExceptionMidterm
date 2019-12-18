@@ -14,6 +14,9 @@ $ingredients = $_POST['data'];
 $includedIngredients = $ingredients[1];
 $excludedIngredients = $ingredients[0];
 
+echo $includedIngredients;
+echo $includedIngredients;
+
 /*for ($x = 0; $x <= 1; $x++) {
     for ($y = 0; $y <= 1; $y++){
         echo $ingredients[$x][$y] ."\n";
