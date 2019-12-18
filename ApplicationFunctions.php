@@ -650,15 +650,18 @@ public static function returnIngredientInformation($username, $mealId, $included
 
             for ($i = 0; $i < sizeof($includedingredients); $i++) {
 
-                echo $includedingredients[$i][1] ." \n";
+               // echo $includedingredients[$i][1] ." \n";
+                for ($j = 0; $j < sizeof($result->nutrition->ingredients); $j++) {
+                    echo $result->nutrition->ingredients[$j]->name ."\n";
+                }
 
             }
 
-            for ($i = 0; $i < sizeof($discardedingredients); $i++) {
+            /*for ($i = 0; $i < sizeof($discardedingredients); $i++) {
 
-                echo $discardedingredients[$i][1] ." \n";
+               // echo $discardedingredients[$i][1] ." \n";
 
-            }
+            }*/
 
             //echo $modifiedIngredientList ."\n";
               //  return $newRecipe;
