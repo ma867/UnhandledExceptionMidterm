@@ -1,6 +1,6 @@
 <?php
 session_start();
-$recipemodified = $_GET["modifiedrecipe"];
+//$recipemodified = $_GET["modifiedrecipe"];
 ?>
 <html lang="en">
 
@@ -63,8 +63,8 @@ $recipemodified = $_GET["modifiedrecipe"];
 </nav><br>
 <?php
 include('ApplicationFunctions.php');
-//$recipe = $_SESSION["recipe"];
-echo $recipemodified;
+$recipe = $_SESSION["recipe"];
+//echo $recipemodified;
 ?>
 <footer class="container-fluid py-5" style="background-color: white;">
     <div class="row">
