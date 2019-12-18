@@ -34,6 +34,7 @@ $request['includedingredients'] = $includedIngredients;
 $request['excludedingredients'] = $excludedIngredients;
 $response = $client->send_request($request);
 
+echo $response;
 
 if($response == 1)
 {
