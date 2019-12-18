@@ -41,7 +41,7 @@ session_start();
             for (var i = 0; i < form.elements.length; i++ ) {
                 if (form.elements[i].checked == true) {
                     stuff.push([form.elements[i].value, form.elements[i].name])
-                }else{
+                }else if (form.elements[i].checked == false) {
                     stuff2.push([form.elements[i].value, form.elements[i].name])
                 }
 
