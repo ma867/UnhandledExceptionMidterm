@@ -714,7 +714,8 @@ public static function returnIngredientInformation($username, $mealId, $included
             echo "THis shit better work soon\n\n";
 
             echo $newRecipe;
-            return $newRecipe;
+            //return $newRecipe;
+            return 1;
 
             }
             //got through list of ingredients
