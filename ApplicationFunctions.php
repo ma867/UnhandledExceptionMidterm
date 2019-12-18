@@ -687,10 +687,23 @@ public static function returnIngredientInformation($username, $mealId, $included
             }
 
             $newCaloricAmount = $totalcalories - $totalingredientcalories;
-
-            echo "new cal amount" .  $newCaloricAmount."\n";
             //echo $modifiedIngredientList ."\n";
               //  return $newRecipe;
+
+            echo $totalcalories . "total & ing " . $totalingredientcalories;
+
+
+            echo "new cal amount" .  $newCaloricAmount;
+            $query = "update modifiedmeals set totalcalories = '$newCaloricAmount' where modmealid = '$modmealid'";
+            $runQuery = mysqli_query($logindb, $query) or die(mysqli_error($logindb));
+
+            $modifiedCaloriesAndIngredients = array();
+            $modifiedCaloriesAndIngredients['calories'] = $newCaloricAmount;
+            $modifiedCaloriesAndIngredients['ingredients'] = $modifiedIngredientList;
+
+            echo "yo modified calories lit yo i hate this ssssshit \n";
+            $newRecipe = self::returnModifiedRecipe($mealId, $modifiedCaloriesAndIngredients);
+
             return 1;
 
             }
