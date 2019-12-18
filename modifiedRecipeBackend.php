@@ -11,12 +11,15 @@ $username = $_SESSION["username"];
 $mealId= $_SESSION["mealId"];
 $ingredients = $_POST['data'];
 
-for ($x = 0; $x <= 1; $x++) {
+$includedIngredients = $ingredients[1];
+$excludedIngredients = $ingredients[0];
+
+/*for ($x = 0; $x <= 1; $x++) {
     for ($y = 0; $y <= 1; $y++){
         echo $ingredients[$x][$y] ."\n";
     }
 
-}
+}*/
 
 
 
@@ -24,7 +27,8 @@ $request = array();
 $request['type'] = "returnmodifiedrecipe";
 $request['username'] = $username;
 $request['mealId'] = $mealId;
-$request['ingredients'] = $ingredients;
+$request['includedingredients'] = $includedIngredients;
+$request['excludedingredients'] = $excludedIngredients;
 $response = $client->send_request($request);
 
 

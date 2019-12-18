@@ -29,7 +29,7 @@ function requestProcessor($request)
         case "returnrecipe":
             return ApplicationFunctions::returnRegularRecipe($request['mealId']);
         case "returnmodifiedrecipe":
-            return ApplicationFunctions::returnIngredientInformation($request['username'], $request['mealId'], $request['ingredients']);
+            return ApplicationFunctions::returnIngredientInformation($request['username'], $request['mealId'], $request['includedingredients'], $request['excludedingredients']);
     }
     return array("returnCode" => '0', 'message'=>"Server received request and processed");
 }

@@ -35,19 +35,23 @@ session_start();
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
     <script type="text/javascript">
         function loopForm(form){
-            var stuff = [];
+            var stuff =[];
+            var stuff2=[];
+            var stuff3=[];
             for (var i = 0; i < form.elements.length; i++ ) {
                 if (form.elements[i].checked == true) {
                     stuff.push([form.elements[i].value, form.elements[i].name])
+                }else{
+                    stuff2.push([form.elements[i].value, form.elements[i].name])
                 }
 
             }
-
-            console.log(stuff);
+            stuff3.push(stuff, stuff2);
+            console.log(stuff3);
 
             var sendData = function() {
                 $.post('modifiedRecipeBackend.php', {
-                    data: stuff
+                    data: stuff3
                 }, function(response) {
                     console.log(response);
                 });

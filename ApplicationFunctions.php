@@ -516,7 +516,9 @@ public static function getIndividualMealInformationAndDisplay($recommendedCalori
         }
 
     }
-public static function returnIngredientInformation($username, $mealId, $discardedingredients){
+
+    /*
+public static function returnIngredientInformation($username, $mealId, $includedingredients, $discardedingredients){
         $logindb = new mysqli("192.168.2.4", "testUser", "12345", "testdb");
         if (mysqli_connect_errno()) {
             echo "failed to connect to MYSQL:" . mysqli_connect_error();
@@ -589,10 +591,10 @@ public static function returnIngredientInformation($username, $mealId, $discarde
             while ($result = mysqli_fetch_array($runQuery, MYSQLI_ASSOC)) {
                 $totalingredientcalories = $result["totalingredientcalories"];
             }
-
+            echo "totalingredients" . $totalingredientcalories;
             $newCaloricAmount = $totalcalories - $totalingredientcalories;
-
-            $query = "update modifiedmeals set ingredientcalories = '$newCaloricAmount' where modmealid = '$modmealid'";
+            echo "totalcal" . $totalcalories;
+            $query = "update modifiedmeals set totalcalories = '$newCaloricAmount' where modmealid = '$modmealid'";
             $runQuery = mysqli_query($logindb, $query) or die(mysqli_error($logindb));
 
             $modifiedCaloriesAndIngredients = array();
@@ -603,6 +605,89 @@ public static function returnIngredientInformation($username, $mealId, $discarde
             return $newRecipe;
 
         }
+}
+
+    */
+
+    public static function returnIngredientInformation($username, $mealId, $includedingredients, $discardedingredients){
+        $logindb = new mysqli("192.168.2.4", "testUser", "12345", "testdb");
+        if (mysqli_connect_errno()) {
+            echo "failed to connect to MYSQL:" . mysqli_connect_error();
+            exit();
+        }
+        else {
+
+            mysqli_select_db($logindb, "testdb");
+            //get userid from users table using username
+            $query = "select * from users where username = '$username'";
+            $runQuery = mysqli_query($logindb, $query) or die(mysqli_error($logindb));
+            while ($result = mysqli_fetch_array($runQuery, MYSQLI_ASSOC)) {
+                $userid = $result["userid"];
+            }
+               //cll api to get json result and store it
+
+            $result = CurlFunctions::curlGetIndividualMealInformation($mealId);
+            //get total calories
+            $totalcalories = $result->nutrition->nutrients[0]->amount;
+            //get datetime
+            $datetime = date('Y-m-d H:i:s');
+            //insert to modified meals to create modmealid
+            $query = "insert into modifiedmeals(userid, dishnameid, totalcalories, datetime) values ('$userid', '$mealId' ,'$totalcalories', '$datetime')";
+            $runQuery = mysqli_query($logindb, $query) or die(mysqli_error($logindb));
+
+            $query = "select * from modifiedmeals where userid = '$userid' and datetime = '$datetime'";
+            $runQuery = mysqli_query($logindb, $query) or die(mysqli_error($logindb));
+            while ($result = mysqli_fetch_array($runQuery, MYSQLI_ASSOC)) {
+                $modmealid = $result["modmealid"];
+            }
+
+            $result = CurlFunctions::curlGetIndividualMealInformation($mealId);
+            $modifiedIngredientList = "";
+
+            for ($j = 0; $j < sizeof($includedingredients); $j++) {
+                for ($i = 0; $i < sizeof($result->nutrition->ingredients); $i++) {
+                    if ($includedingredients[$j] == $result->nutrition->ingredients[$i]->name) {
+
+                        $ingredientName = $result->nutrition->ingredients[$i]->name;
+                        $ingredientAmount = $result->nutrition->ingredients[$i]->amount . " " . $result->nutrition->ingredients[$i]->unit;
+                        $modifiedIngredientList .= "- " . $ingredientName . " " . $ingredientAmount . "<br>";
+                    }
+            }
+            for ($i = 0; $i <= sizeof($discardedingredients) - 1; $i++) {
+                $discardedIngredientCalories = $discardedingredients[$i][0];
+                $discardedIngredientName = $discardedingredients[$i][1];
+                $query = "insert into discardedingredients(modmealid, userid, ingredientname, ingredientcalories) values ('$modmealid', '$userid', '$discardedIngredientName', '$discardedIngredientCalories')";
+                $runQuery = mysqli_query($logindb, $query) or die(mysqli_error($logindb));
+                echo $query . "discardedingredients";
+            }
+
+                echo "got modifiedmealid" . $modmealid . "</br>";
+                $query = "select sum(ingredientcalories) as totalingredientcalories from discardedingredients where modmealid= '$modmealid'";
+                $runQuery = mysqli_query($logindb, $query) or die(mysqli_error($logindb));
+                while ($result = mysqli_fetch_array($runQuery, MYSQLI_ASSOC)) {
+                    $totalingredientcalories = $result["totalingredientcalories"];
+                }
+
+                $newCaloricAmount = $totalcalories - $totalingredientcalories;
+
+                echo $totalcalories . "total & ing " . $totalingredientcalories;
+
+                $query = "update modifiedmeals set totalcalories = '$newCaloricAmount' where modmealid = '$modmealid'";
+                $runQuery = mysqli_query($logindb, $query) or die(mysqli_error($logindb));
+
+                $modifiedCaloriesAndIngredients = array();
+                $modifiedCaloriesAndIngredients['calories'] = $newCaloricAmount;
+                $modifiedCaloriesAndIngredients['ingredients'] = $modifiedIngredientList;
+
+                $newRecipe = self::returnModifiedRecipe($mealId, $modifiedCaloriesAndIngredients);
+                return $newRecipe;
+
+            }
+            //got through list of ingredients
+
+
+
+    }
 }
 public static function returnRegularRecipe($mealId)
 {
