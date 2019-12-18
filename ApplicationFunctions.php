@@ -642,58 +642,13 @@ public static function returnIngredientInformation($username, $mealId, $included
             }
 
             $result = CurlFunctions::curlGetIndividualMealInformation($mealId);
+
+            echo $result ."\n";
             $modifiedIngredientList = "";
 
-            for ($i = 0; $i < sizeof($includedingredients); $i++) {
-                for ($j = 0; $j < sizeof($result->nutrition->ingredients); $j++) {
-                    if ($includedingredients[$i] == $result->nutrition->ingredients[$j]->name) {
 
-                        $ingredientName = $result->nutrition->ingredients[$j]->name;
-                        $ingredientAmount = $result->nutrition->ingredients[$j]->amount . " " . $result->nutrition->ingredients[$j]->unit;
-                        $modifiedIngredientList .= "- " . $ingredientName . " " . $ingredientAmount . "<br>";
-                        echo $modifiedIngredientList ."\n";
-                    }
-                }
-
-            }
-                echo "\n new modified ingredient list: " . $modifiedIngredientList;
-
-            for ($i = 0; $i <sizeof($discardedingredients); $i++) {
-                $discardedIngredientCalories = $discardedingredients[$i][0];
-                $discardedIngredientName = $discardedingredients[$i][1];
-                $query = "insert into discardedingredients(modmealid, userid, ingredientname, ingredientcalories) values ('$modmealid', '$userid', '$discardedIngredientName', '$discardedIngredientCalories')";
-                $runQuery = mysqli_query($logindb, $query) or die(mysqli_error($logindb));
-                echo $query . "discardedingredients";
-            }
-
-                echo "got modifiedmealid" . $modmealid . "</br>";
-                $query = "select sum(ingredientcalories) as totalingredientcalories from discardedingredients where modmealid= '$modmealid'";
-                $runQuery = mysqli_query($logindb, $query) or die(mysqli_error($logindb));
-                while ($result = mysqli_fetch_array($runQuery, MYSQLI_ASSOC)) {
-                    $totalingredientcalories = $result["totalingredientcalories"];
-                }
-
-                $newCaloricAmount = $totalcalories - $totalingredientcalories;
-
-                echo $totalcalories . "total & ing " . $totalingredientcalories;
-
-
-               echo "new cal amount" .  $newCaloricAmount;
-                $query = "update modifiedmeals set totalcalories = '$newCaloricAmount' where modmealid = '$modmealid'";
-                $runQuery = mysqli_query($logindb, $query) or die(mysqli_error($logindb));
-
-                echo "update modified meals query:" . $query . "\n";
-
-                $modifiedCaloriesAndIngredients = array();
-                $modifiedCaloriesAndIngredients['calories'] = $newCaloricAmount;
-                $modifiedCaloriesAndIngredients['ingredients'] = $modifiedIngredientList;
-
-                echo "yo modified calories lit yo i hate this ssssshit \n";
-                $newRecipe = self::returnModifiedRecipe($mealId, $modifiedCaloriesAndIngredients);
-
-                echo "\n"  . $newRecipe;
-
-                return $newRecipe;
+              //  return $newRecipe;
+            return 1;
 
             }
             //got through list of ingredients
