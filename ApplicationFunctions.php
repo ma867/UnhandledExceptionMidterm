@@ -702,17 +702,17 @@ public static function returnIngredientInformation($username, $mealId, $included
                 $modIngredients.= "-".$ingredient."<br>";
             }
 
-            echo "Final Modified List\n\n";
+            echo "\n\nFinal Modified List\n\n";
             echo $modIngredients."\n";
 
             $modifiedCaloriesAndIngredients = array();
             $modifiedCaloriesAndIngredients['calories'] = $newCaloricAmount;
             $modifiedCaloriesAndIngredients['ingredients'] = $modIngredients;
 
-            echo "yo modified calories lit yo i hate this ssssshit \n";
+           // echo "yo modified calories lit yo i hate this ssssshit \n";
             $newRecipe = self::returnModifiedRecipe($mealId, $modifiedCaloriesAndIngredients);
 
-            return 1;
+            return $modifiedCaloriesAndIngredients;
 
             }
             //got through list of ingredients
