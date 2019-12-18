@@ -697,9 +697,17 @@ public static function returnIngredientInformation($username, $mealId, $included
             $query = "update modifiedmeals set totalcalories = '$newCaloricAmount' where modmealid = '$modmealid'";
             $runQuery = mysqli_query($logindb, $query) or die(mysqli_error($logindb));
 
+            $modIngredients="";
+            foreach($modifiedIngredientList as &$ingredient){
+                $modIngredients.= "-".$ingredient."<br>";
+            }
+
+            echo "Final Modified List\n\n";
+            echo $modIngredients."\n";
+
             $modifiedCaloriesAndIngredients = array();
             $modifiedCaloriesAndIngredients['calories'] = $newCaloricAmount;
-            $modifiedCaloriesAndIngredients['ingredients'] = $modifiedIngredientList;
+            $modifiedCaloriesAndIngredients['ingredients'] = $modIngredients;
 
             echo "yo modified calories lit yo i hate this ssssshit \n";
             $newRecipe = self::returnModifiedRecipe($mealId, $modifiedCaloriesAndIngredients);
