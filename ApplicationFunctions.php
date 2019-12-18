@@ -678,9 +678,17 @@ public static function returnIngredientInformation($username, $mealId, $included
                 $discardedIngredientName = $discardedingredients[$i][1];
                 $query = "insert into discardedingredients(modmealid, userid, ingredientname, ingredientcalories) values ('$modmealid', '$userid', '$discardedIngredientName', '$discardedIngredientCalories')";
                 $runQuery = mysqli_query($logindb, $query) or die(mysqli_error($logindb));
-                echo $query . "discardedingredients";
             }
 
+            $query = "select sum(ingredientcalories) as totalingredientcalories from discardedingredients where modmealid= '$modmealid'";
+            $runQuery = mysqli_query($logindb, $query) or die(mysqli_error($logindb));
+            while ($result = mysqli_fetch_array($runQuery, MYSQLI_ASSOC)) {
+                $totalingredientcalories = $result["totalingredientcalories"];
+            }
+
+            $newCaloricAmount = $totalcalories - $totalingredientcalories;
+
+            echo "new cal amount" .  $newCaloricAmount."\n";
             //echo $modifiedIngredientList ."\n";
               //  return $newRecipe;
             return 1;
