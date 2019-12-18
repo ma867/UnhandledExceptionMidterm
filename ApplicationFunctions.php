@@ -711,7 +711,7 @@ public static function returnIngredientInformation($username, $mealId, $included
 
            // echo "yo modified calories lit yo i hate this ssssshit \n";
             $newRecipe = self::returnModifiedRecipe($mealId, $modifiedCaloriesAndIngredients);
-
+            echo "THis shit better work soon";
             return $newRecipe;
 
             }
