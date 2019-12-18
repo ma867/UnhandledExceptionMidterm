@@ -673,6 +673,13 @@ public static function returnIngredientInformation($username, $mealId, $included
                // echo $discardedingredients[$i][1] ." \n";
 
             }*/
+            for ($i = 0; $i <sizeof($discardedingredients); $i++) {
+                $discardedIngredientCalories = $discardedingredients[$i][0];
+                $discardedIngredientName = $discardedingredients[$i][1];
+                $query = "insert into discardedingredients(modmealid, userid, ingredientname, ingredientcalories) values ('$modmealid', '$userid', '$discardedIngredientName', '$discardedIngredientCalories')";
+                $runQuery = mysqli_query($logindb, $query) or die(mysqli_error($logindb));
+                echo $query . "discardedingredients";
+            }
 
             //echo $modifiedIngredientList ."\n";
               //  return $newRecipe;
