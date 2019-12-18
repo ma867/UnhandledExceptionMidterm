@@ -648,7 +648,17 @@ public static function returnIngredientInformation($username, $mealId, $included
             print_r($includedingredients);
             print_r($discardedingredients);
 
+            for ($i = 0; $i < sizeof($includedingredients); $i++) {
 
+                echo $includedingredients[$i][1] ." \n";
+
+            }
+
+            for ($i = 0; $i < sizeof($discardedingredients); $i++) {
+
+                echo $discardedingredients[$i][1] ." \n";
+
+            }
 
             //echo $modifiedIngredientList ."\n";
               //  return $newRecipe;
