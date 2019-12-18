@@ -712,7 +712,7 @@ public static function returnIngredientInformation($username, $mealId, $included
            // echo "yo modified calories lit yo i hate this ssssshit \n";
             $newRecipe = self::returnModifiedRecipe($mealId, $modifiedCaloriesAndIngredients);
 
-            return $modifiedCaloriesAndIngredients;
+            return $newRecipe;
 
             }
             //got through list of ingredients
