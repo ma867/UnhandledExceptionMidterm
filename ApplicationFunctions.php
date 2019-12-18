@@ -654,8 +654,10 @@ public static function returnIngredientInformation($username, $mealId, $included
                 for ($j = 0; $j < sizeof($result->nutrition->ingredients); $j++) {
                     $ingredientName = $result->nutrition->ingredients[$j]->name;
                     $ingredientAmount = $result->nutrition->ingredients[$j]->amount . " " . $result->nutrition->ingredients[$j]->unit;
-                    $modifiedIngredientList .= "-" . $ingredientName . " " . $ingredientAmount . "<br>";
 
+                    if(strpos($modifiedIngredientList, $ingredientName) !== false ){
+                        $modifiedIngredientList .= "-" . $ingredientName . " " . $ingredientAmount . "<br>";
+                    }
                 }
 
             }
