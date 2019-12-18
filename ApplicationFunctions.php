@@ -646,6 +646,7 @@ public static function returnIngredientInformation($username, $mealId, $included
            // echo $result ."\n";
             $modifiedIngredientList = "";
             print_r($includedingredients);
+            print_r($discardedingredients);
 
 
 
